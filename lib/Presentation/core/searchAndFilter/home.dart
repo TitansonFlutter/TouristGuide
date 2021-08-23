@@ -196,3 +196,47 @@ class _HomePageState extends State<Body> {
     );
   }
 }
+
+class SearchResultsListView extends StatelessWidget {
+  final String? searchTerm;
+
+  const SearchResultsListView({
+    Key? key,
+    @required this.searchTerm,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (searchTerm == null) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.home,
+              size: 64,
+            ),
+            Text(
+              'Start searching',
+              style: Theme.of(context).textTheme.headline5,
+            )
+          ],
+        ),
+      );
+    }
+
+    final fsb = FloatingSearchBar.of(context);
+
+    return ListView(
+      padding:
+          EdgeInsets.only(top: fsb!.value.height + fsb.value.margins.vertical),
+      children: List.generate(
+        50,
+        (index) => ListTile(
+          title: Text('$searchTerm search result'),
+          subtitle: Text(index.toString()),
+        ),
+      ),
+    );
+  }
+}
