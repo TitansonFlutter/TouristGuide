@@ -17,7 +17,6 @@ class HomeScreen extends StatelessWidget {
       appBar: buildAppBar(context,
           title: 'Discover', leading: HamburgerMenu(), actions: [UserAvatar()]),
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomNavBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -28,6 +27,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }
