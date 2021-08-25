@@ -23,12 +23,12 @@ class _HomePageState extends State<Body> {
     'Hammer',
   ];
 
-  late List<String> filteredSearchHistory;
+  List<String> filteredSearchHistory;
 
   String selectedTerm = '';
 
   List<String> filterSearchTerms({
-    @required String? filter,
+    @required String filter,
   }) {
     if (filter != null && filter.isNotEmpty) {
       return _searchHistory.reversed
@@ -63,7 +63,7 @@ class _HomePageState extends State<Body> {
     addSearchTerm(term);
   }
 
-  FloatingSearchBarController? controller;
+  FloatingSearchBarController controller;
 
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _HomePageState extends State<Body> {
 
   @override
   void dispose() {
-    controller!.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -119,7 +119,7 @@ class _HomePageState extends State<Body> {
               addSearchTerm(query);
               selectedTerm = query;
             });
-            controller!.close();
+            controller.close();
           },
           builder: (context, transition) {
             return ClipRRect(
@@ -129,8 +129,8 @@ class _HomePageState extends State<Body> {
                 elevation: 4,
                 child: Builder(
                   builder: (context) {
-                    if (filteredSearchHistory!.isEmpty &&
-                        controller!.query.isEmpty) {
+                    if (filteredSearchHistory.isEmpty &&
+                        controller.query.isEmpty) {
                       return Container(
                         height: 56,
                         width: double.infinity,
@@ -142,22 +142,22 @@ class _HomePageState extends State<Body> {
                           style: Theme.of(context).textTheme.caption,
                         ),
                       );
-                    } else if (filteredSearchHistory!.isEmpty) {
+                    } else if (filteredSearchHistory.isEmpty) {
                       return ListTile(
-                        title: Text(controller!.query),
+                        title: Text(controller.query),
                         leading: const Icon(Icons.search),
                         onTap: () {
                           setState(() {
-                            addSearchTerm(controller!.query);
-                            selectedTerm = controller!.query;
+                            addSearchTerm(controller.query);
+                            selectedTerm = controller.query;
                           });
-                          controller!.close();
+                          controller.close();
                         },
                       );
                     } else {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: filteredSearchHistory!
+                        children: filteredSearchHistory
                             .map(
                               (term) => ListTile(
                                 title: Text(
@@ -179,7 +179,7 @@ class _HomePageState extends State<Body> {
                                     putSearchTermFirst(term);
                                     selectedTerm = term;
                                   });
-                                  controller!.close();
+                                  controller.close();
                                 },
                               ),
                             )
@@ -198,10 +198,10 @@ class _HomePageState extends State<Body> {
 }
 
 class SearchResultsListView extends StatelessWidget {
-  final String? searchTerm;
+  final String searchTerm;
 
   const SearchResultsListView({
-    Key? key,
+    Key key,
     @required this.searchTerm,
   }) : super(key: key);
 
@@ -229,7 +229,7 @@ class SearchResultsListView extends StatelessWidget {
 
     return ListView(
       padding:
-          EdgeInsets.only(top: fsb!.value.height + fsb.value.margins.vertical),
+          EdgeInsets.only(top: fsb.value.height + fsb.value.margins.vertical),
       children: List.generate(
         50,
         (index) => ListTile(

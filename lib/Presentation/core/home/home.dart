@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       appBar: buildAppBar(context,
-          title: 'Discover', leading: HamburgerMenu(), actions: [UserAvatar()]),
+          title: 'Discover', leading: HamburgerMenu(), actions: [UserAvatar(),]),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(

@@ -15,9 +15,10 @@ class PlaceCard extends StatelessWidget {
       margin: EdgeInsets.only(right: 30),
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(
-              image: AssetImage(place.image), fit: BoxFit.cover)),
+        borderRadius: BorderRadius.circular(15),
+        image:
+            DecorationImage(image: AssetImage(place.image), fit: BoxFit.cover),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
