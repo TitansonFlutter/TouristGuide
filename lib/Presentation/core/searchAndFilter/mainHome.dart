@@ -1,11 +1,15 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:tourist_guide_app/Presentation/Models/hotel_list_data.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/calendar_popup_view.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/filters_screen.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/hotel_app_theme.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/hotel_list_view.dart';
-
 
 class HotelHomeScreen extends StatefulWidget {
   @override
@@ -85,8 +89,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                           ];
                         },
                         body: Container(
-                          color:
-                              Colors.black,
+                          color: Colors.black,
                           child: ListView.builder(
                             itemCount: hotelList.length,
                             padding: const EdgeInsets.only(top: 8),
@@ -319,6 +322,8 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
     );
   }
 
+  //FilterScreen area
+
   // Widget getSearchBarUI() {
   //   return Padding(
   //     padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
@@ -490,9 +495,9 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
     );
   }
 
-  void showDemoDialog({BuildContext? context}) {
+  void showDemoDialog({BuildContext context}) {
     showDialog<dynamic>(
-      context: context!,
+      context: context,
       builder: (BuildContext context) => CalendarPopupView(
         barrierDismissible: true,
         minimumDate: DateTime.now(),
@@ -586,7 +591,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                       onTap: () {},
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(FontAwesomeIcons.mapMarkerAlt),
+                        child: Icon(Icons.location_history_sharp),
                       ),
                     ),
                   ),

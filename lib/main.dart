@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/mainHome.dart';
 
 void main() {
   runApp(MyApp());

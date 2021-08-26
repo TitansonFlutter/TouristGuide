@@ -4,6 +4,7 @@ import 'package:tourist_guide_app/Presentation/Models/Place.dart';
 import 'package:tourist_guide_app/Presentation/components/app_bar.dart';
 import 'package:tourist_guide_app/Presentation/components/hamburger_menu.dart';
 import 'package:tourist_guide_app/Presentation/components/user_avatar.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/mainHome.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/place_card.dart';
 
 void main(List<String> args) {
@@ -86,124 +87,119 @@ class _HomePageState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      appBar: buildAppBar(context,
-          title: 'Filter & Search',
-          leading: HamburgerMenu(),
-          actions: [
-            UserAvatar(),
-          ]),
+      body: FilterSearchBar(),
+    );
+  }
+
+  Widget FilterSearchBar() {
+    return FloatingSearchBar(
       backgroundColor: Colors.white,
-      body: FloatingSearchBar(
-        backgroundColor: Colors.white,
-        borderRadius: BorderRadius.circular(100),
-        controller: controller,
-        body: FloatingSearchBarScrollNotifier(
-          child: SearchResultsListView(
-            searchTerm: selectedTerm,
+      borderRadius: BorderRadius.circular(100),
+      controller: controller,
+      body: FloatingSearchBarScrollNotifier(
+        child: SearchResultsListView(
+          searchTerm: selectedTerm,
+        ),
+      ),
+      transition: CircularFloatingSearchBarTransition(),
+      physics: BouncingScrollPhysics(),
+      title: Text(
+        selectedTerm ?? 'Search Tours',
+        style: TextStyle(color: Colors.blue[900]),
+      ),
+      hint: 'Search and find out...',
+      actions: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Colors.blue[400],
+          ),
+          child: FloatingSearchBarAction.searchToClear(
+            color: Colors.white,
           ),
         ),
-        transition: CircularFloatingSearchBarTransition(),
-        physics: BouncingScrollPhysics(),
-        title: Text(
-          selectedTerm ?? 'Search Tours',
-          style: TextStyle(color: Colors.blue[900]),
-        ),
-        hint: 'Search and find out...',
-        actions: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.blue[400],
-            ),
-            child: FloatingSearchBarAction.searchToClear(
-              color: Colors.white,
-            ),
-          ),
-        ],
-        onQueryChanged: (query) {
-          setState(() {
-            filteredSearchHistory = filterSearchTerms(filter: query);
-          });
-        },
-        onSubmitted: (query) {
-          setState(() {
-            addSearchTerm(query);
-            selectedTerm = query;
-          });
-          controller.close();
-        },
-        builder: (context, transition) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Material(
-              color: Colors.white,
-              elevation: 4,
-              child: Builder(
-                builder: (context) {
-                  if (filteredSearchHistory.isEmpty &&
-                      controller.query.isEmpty) {
-                    return Container(
-                      height: 56,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'SEARCH FOR TOURS',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    );
-                  } else if (filteredSearchHistory.isEmpty) {
-                    return ListTile(
-                      title: Text(controller.query),
-                      leading: const Icon(Icons.search),
-                      onTap: () {
-                        setState(() {
-                          addSearchTerm(controller.query);
-                          selectedTerm = controller.query;
-                        });
-                        controller.close();
-                      },
-                    );
-                  } else {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: filteredSearchHistory
-                          .map(
-                            (term) => ListTile(
-                              title: Text(
-                                term,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              leading: const Icon(Icons.history),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  setState(() {
-                                    deleteSearchTerm(term);
-                                  });
-                                },
-                              ),
-                              onTap: () {
+      ],
+      onQueryChanged: (query) {
+        setState(() {
+          filteredSearchHistory = filterSearchTerms(filter: query);
+        });
+      },
+      onSubmitted: (query) {
+        setState(() {
+          addSearchTerm(query);
+          selectedTerm = query;
+        });
+        controller.close();
+      },
+      builder: (context, transition) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Material(
+            color: Colors.white,
+            elevation: 4,
+            child: Builder(
+              builder: (context) {
+                if (filteredSearchHistory.isEmpty && controller.query.isEmpty) {
+                  return Container(
+                    height: 56,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'SEARCH FOR TOURS',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  );
+                } else if (filteredSearchHistory.isEmpty) {
+                  return ListTile(
+                    title: Text(controller.query),
+                    leading: const Icon(Icons.search),
+                    onTap: () {
+                      setState(() {
+                        addSearchTerm(controller.query);
+                        selectedTerm = controller.query;
+                      });
+                      controller.close();
+                    },
+                  );
+                } else {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: filteredSearchHistory
+                        .map(
+                          (term) => ListTile(
+                            title: Text(
+                              term,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            leading: const Icon(Icons.history),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
                                 setState(() {
-                                  putSearchTermFirst(term);
-                                  selectedTerm = term;
+                                  deleteSearchTerm(term);
                                 });
-                                controller.close();
                               },
                             ),
-                          )
-                          .toList(),
-                    );
-                  }
-                },
-              ),
+                            onTap: () {
+                              setState(() {
+                                putSearchTermFirst(term);
+                                selectedTerm = term;
+                              });
+                              controller.close();
+                            },
+                          ),
+                        )
+                        .toList(),
+                  );
+                }
+              },
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -223,14 +219,15 @@ class SearchResultsListView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.home,
-              size: 64,
-            ),
-            Text(
-              'Start searching',
-              style: Theme.of(context).textTheme.headline5,
-            )
+            Expanded(child: HotelHomeScreen())
+            // Icon(
+            //   Icons.home,
+            //   size: 64,
+            // ),
+            // Text(
+            //   'Start searching',
+            //   style: Theme.of(context).textTheme.headline5,
+            // )
           ],
         ),
       );
