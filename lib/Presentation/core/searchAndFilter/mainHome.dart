@@ -89,7 +89,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                           ];
                         },
                         body: Container(
-                          color: Colors.black,
+                          // color: Colors.black,
                           child: ListView.builder(
                             itemCount: hotelList.length,
                             padding: const EdgeInsets.only(top: 8),
@@ -269,54 +269,57 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
               color: Colors.grey.withOpacity(0.8),
             ),
           ),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Number of Rooms',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '1 Room - 2 Adults',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+
+          //Rooms Section
+
+          // Expanded(
+          //   child: Row(
+          //     children: <Widget>[
+          //       Material(
+          //         color: Colors.transparent,
+          //         child: InkWell(
+          //           focusColor: Colors.transparent,
+          //           highlightColor: Colors.transparent,
+          //           hoverColor: Colors.transparent,
+          //           splashColor: Colors.grey.withOpacity(0.2),
+          //           borderRadius: const BorderRadius.all(
+          //             Radius.circular(4.0),
+          //           ),
+          //           onTap: () {
+          //             FocusScope.of(context).requestFocus(FocusNode());
+          //           },
+          //           child: Padding(
+          //             padding: const EdgeInsets.only(
+          //                 left: 8, right: 8, top: 4, bottom: 4),
+          //             child: Column(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: <Widget>[
+          //                 Text(
+          //                   'Number of Rooms',
+          //                   style: TextStyle(
+          //                       fontWeight: FontWeight.w100,
+          //                       fontSize: 16,
+          //                       color: Colors.grey.withOpacity(0.8)),
+          //                 ),
+          //                 const SizedBox(
+          //                   height: 8,
+          //                 ),
+          //                 Text(
+          //                   '1 Room - 2 Adults',
+          //                   style: TextStyle(
+          //                     fontWeight: FontWeight.w100,
+          //                     fontSize: 16,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -430,7 +433,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '530 hotels found',
+                      '530 Tours found',
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontSize: 16,
