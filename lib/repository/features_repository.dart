@@ -16,4 +16,19 @@
 //   Future<Tour> addReview(int id, Tour review) async {
 //     return this._dataProvider.getTour(id, tour);
 //   }
+
+
+
+//   Future<Tour> filter(Tour review) async {
+//     return this._dataProvider.filter(tour);
+//   }
+
+//   Future<Tour> fetchAllTours(int id, Tour review) async {
+//     return this._dataProvider.getAllTours();
+//   }
+
+
+//   Future<Tour> fetchTourByName(String tourName) async {
+//     return this._dataProvider.getTourByName(tourName);
+//   }
 // }
