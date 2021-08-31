@@ -44,4 +44,45 @@
 //       throw Exception("Could not get the tour");
 //     }
 //   }
+
+
+
+//Filter 
+
+
+// Future<Tour> filter(Tour tour) async {
+//     final http.Response response = await http.post(Uri.parse("$_url/tours"),
+//         headers: <String, String>{"Content-Type": "application/json"},
+//         body: jsonEncode({
+//           "TourName": tour.name,
+//           "PriceHigh": tour.highPrice,
+//           "PriceLow": tour.lowPrice,
+//           "Speciality": tour.special
+//         }));
+//     if (response.statusCode == 200) {
+//       return Review.fromJson(jsonDecode(response.body));
+//     } else {
+//       throw Exception("Something went wrong");
+//     }
+//   }
+
+
+// Future<Tour> getAllTours(Tour tour) async {
+//     final http.Response response = await http.get(Uri.parse("$_url/tours"));
+//     if (response.statusCode == 200) {
+//       return Review.fromJson(jsonDecode(response.body));
+//     } else {
+//       throw Exception("Something went wrong");
+//     }
+//   }
+
+
+// Future<Tour> getTourByName(String tourName) async {
+//     final http.Response response = await http.get(Uri.parse("$_url/tours/$tourName"));
+//     if (response.statusCode == 200) {
+//       return Review.fromJson(jsonDecode(response.body));
+//     } else {
+//       throw Exception("Something went wrong");
+//     }
+//   }
 // }
