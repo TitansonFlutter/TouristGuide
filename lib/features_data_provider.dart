@@ -50,14 +50,13 @@
 //Filter 
 
 
-// Future<Tour> filter(Tour tour) async {
+// Future<Tour> filter(List<String> filters) async {
 //     final http.Response response = await http.post(Uri.parse("$_url/tours"),
 //         headers: <String, String>{"Content-Type": "application/json"},
 //         body: jsonEncode({
-//           "TourName": tour.name,
-//           "PriceHigh": tour.highPrice,
-//           "PriceLow": tour.lowPrice,
-//           "Speciality": tour.special
+//           "PriceHigh": filter.highPrice,
+//           "PriceLow": filter.lowPrice,
+//           "Speciality": filter.special
 //         }));
 //     if (response.statusCode == 200) {
 //       return Review.fromJson(jsonDecode(response.body));
@@ -67,7 +66,7 @@
 //   }
 
 
-// Future<Tour> getAllTours(Tour tour) async {
+// Future<Tour> getAllTours() async {
 //     final http.Response response = await http.get(Uri.parse("$_url/tours"));
 //     if (response.statusCode == 200) {
 //       return Review.fromJson(jsonDecode(response.body));
