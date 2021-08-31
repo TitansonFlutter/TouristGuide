@@ -315,7 +315,8 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                                     color: getIsItStartAndEndDate(date)
                                         ? Colors.white
                                         : currentMonthDate.month == date.month
-                                            ? Colors.black
+                                            ? HotelAppTheme.buildLightTheme()
+                                                .primaryColor
                                             : Colors.grey.withOpacity(0.6),
                                     fontSize:
                                         MediaQuery.of(context).size.width > 360

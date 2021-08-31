@@ -146,9 +146,7 @@ class HotelListView extends StatelessWidget {
                                                     ),
                                                     itemPadding:
                                                         EdgeInsets.zero,
-                                                    onRatingUpdate: (rating) {
-                                                      print(rating);
-                                                    },
+                                                    onRatingUpdate: (rating) {},
                                                   ),
                                                   Text(
                                                     ' ${hotelData.reviews} Reviews',

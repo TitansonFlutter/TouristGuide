@@ -19,7 +19,7 @@ class HotelListData {
 
   static List<HotelListData> hotelList = <HotelListData>[
     HotelListData(
-      imagePath: 'assets/images2/place.jpg',
+      imagePath: 'assets/images/place1.jpg',
       titleTxt: 'Grand Royal Hotel',
       subTxt: 'Wembley, London',
       dist: 2.0,
@@ -28,7 +28,7 @@ class HotelListData {
       perNight: 180,
     ),
     HotelListData(
-      imagePath: 'assets/hotel/hotel_2.png',
+      imagePath: 'assets/images/place2.jpg',
       titleTxt: 'Queen Hotel',
       subTxt: 'Wembley, London',
       dist: 4.0,
@@ -37,7 +37,7 @@ class HotelListData {
       perNight: 200,
     ),
     HotelListData(
-      imagePath: 'assets/hotel/hotel_3.png',
+      imagePath: 'assets/images/place3.jpg',
       titleTxt: 'Grand Royal Hotel',
       subTxt: 'Wembley, London',
       dist: 3.0,
@@ -46,22 +46,13 @@ class HotelListData {
       perNight: 60,
     ),
     HotelListData(
-      imagePath: 'assets/hotel/hotel_4.png',
+      imagePath: 'assets/images/place4.jpg',
       titleTxt: 'Queen Hotel',
       subTxt: 'Wembley, London',
       dist: 7.0,
       reviews: 90,
       rating: 4.4,
       perNight: 170,
-    ),
-    HotelListData(
-      imagePath: 'assets/hotel/hotel_5.png',
-      titleTxt: 'Grand Royal Hotel',
-      subTxt: 'Wembley, London',
-      dist: 2.0,
-      reviews: 240,
-      rating: 4.5,
-      perNight: 200,
     ),
   ];
 }

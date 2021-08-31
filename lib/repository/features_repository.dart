@@ -1,6 +1,6 @@
 // import 'package:tourist_guide_app/features_data_provider.dart';
 
-// class FeaturesRepository {
+class FeaturesRepository {
 //   final FeaturesDataProvider _dataProvider;
 
 //   FeaturesRepository(this._dataProvider);
@@ -16,4 +16,12 @@
 //   Future<Tour> addReview(int id, Tour review) async {
 //     return this._dataProvider.getTour(id, tour);
 //   }
-// }
+
+//   Future<Tour> filter(Tour tour) async {
+//     return this._dataProvider.filter(tour);
+//   }
+
+//   Future<Tour> fetchTourByName(String tourName) async {
+//     return this._dataProvider.getTourByName(tourName);
+//   }
+}

@@ -31,20 +31,23 @@ class _FiltersScreenState extends State<FiltersScreen> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     priceBarFilter(),
                     const Divider(
                       height: 1,
                     ),
-                    popularFilter(),
+                    // popularFilter(),
+                    DropdownTours(),
+                    // const Divider(
+                    //   height: 1,
+                    // ),
+                    DropDownSpeciality(),
+                    // distanceViewUI(),
                     const Divider(
                       height: 1,
                     ),
-                    distanceViewUI(),
-                    const Divider(
-                      height: 1,
-                    ),
-                    allAccommodationUI()
+                    // allAccommodationUI()
                   ],
                 ),
               ),
@@ -94,17 +97,21 @@ class _FiltersScreenState extends State<FiltersScreen> {
       ),
     );
   }
+  //dropdown for available tours
 
-  Widget allAccommodationUI() {
+  Widget DropdownTours() {
+    String dropdownvalue = 'Tana';
+    var items = ['Lalibela', 'Axum', 'Omo', 'Hamar', 'GondarCastle', 'Tana'];
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding:
               const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
           child: Text(
-            'Type of Accommodation',
+            'Available Tours',
             textAlign: TextAlign.left,
             style: TextStyle(
                 color: Colors.grey,
@@ -114,9 +121,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(right: 16, left: 16),
-          child: Column(
-            children: getAccomodationListUI(),
-          ),
+          child: Column(children: [
+            DropdownButton(
+              value: dropdownvalue,
+              icon: Icon(Icons.keyboard_arrow_down),
+              items: items.map((String items) {
+                return DropdownMenuItem(value: items, child: Text(items));
+              }).toList(),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownvalue = newValue;
+                });
+              },
+            ),
+          ]),
         ),
         const SizedBox(
           height: 8,
@@ -125,55 +143,99 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
-  List<Widget> getAccomodationListUI() {
-    final List<Widget> noList = <Widget>[];
-    for (int i = 0; i < accomodationListData.length; i++) {
-      final PopularFilterListData date = accomodationListData[i];
-      noList.add(
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-            onTap: () {
-              setState(() {
-                checkAppPosition(i);
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      date.titleTxt,
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  CupertinoSwitch(
-                    activeColor: date.isSelected
-                        ? HotelAppTheme.buildLightTheme().primaryColor
-                        : Colors.grey.withOpacity(0.6),
-                    onChanged: (bool value) {
-                      setState(() {
-                        checkAppPosition(i);
-                      });
-                    },
-                    value: date.isSelected,
-                  ),
-                ],
-              ),
-            ),
+  Widget DropDownSpeciality() {
+    String dropdownvalue = 'Regular';
+    var items = ['Regular', 'Special'];
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
+          child: Text(
+            'Tour Type',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+                fontWeight: FontWeight.normal),
           ),
         ),
-      );
-      if (i == 0) {
-        noList.add(const Divider(
-          height: 1,
-        ));
-      }
-    }
-    return noList;
+        Padding(
+          padding: const EdgeInsets.only(right: 16, left: 16),
+          child: Column(children: [
+            DropdownButton(
+              value: dropdownvalue,
+              icon: Icon(Icons.keyboard_arrow_down),
+              items: items.map((String items) {
+                return DropdownMenuItem(value: items, child: Text(items));
+              }).toList(),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownvalue = newValue;
+                });
+              },
+            ),
+          ]),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+      ],
+    );
   }
+
+  // List<Widget> getAccomodationListUI() {
+  //   final List<Widget> noList = <Widget>[];
+  //   for (int i = 0; i < accomodationListData.length; i++) {
+  //     final PopularFilterListData date = accomodationListData[i];
+  //     noList.add(
+  //       Material(
+  //         color: Colors.transparent,
+  //         child: InkWell(
+  //           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+  //           onTap: () {
+  //             setState(() {
+  //               checkAppPosition(i);
+  //             });
+  //           },
+  //           child: Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: Row(
+  //               children: <Widget>[
+  //                 Expanded(
+  //                   child: Text(
+  //                     date.titleTxt,
+  //                     style: TextStyle(color: Colors.black),
+  //                   ),
+  //                 ),
+  //                 CupertinoSwitch(
+  //                   activeColor: date.isSelected
+  //                       ? HotelAppTheme.buildLightTheme().primaryColor
+  //                       : Colors.grey.withOpacity(0.6),
+  //                   onChanged: (bool value) {
+  //                     setState(() {
+  //                       checkAppPosition(i);
+  //                     });
+  //                   },
+  //                   value: date.isSelected,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //     if (i == 0) {
+  //       noList.add(const Divider(
+  //         height: 1,
+  //       ));
+  //     }
+  //   }
+  //   return noList;
+  // }
 
   void checkAppPosition(int index) {
     if (index == 0) {
@@ -208,65 +270,65 @@ class _FiltersScreenState extends State<FiltersScreen> {
     }
   }
 
-  Widget distanceViewUI() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
-          child: Text(
-            'Distance from city center',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: Colors.grey,
-                fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
-                fontWeight: FontWeight.normal),
-          ),
-        ),
-        SliderView(
-          distValue: distValue,
-          onChangedistValue: (double value) {
-            distValue = value;
-          },
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-      ],
-    );
-  }
+  // Widget distanceViewUI() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: <Widget>[
+  //       Padding(
+  //         padding:
+  //             const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
+  //         child: Text(
+  //           'Distance from city center',
+  //           textAlign: TextAlign.left,
+  //           style: TextStyle(
+  //               color: Colors.grey,
+  //               fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+  //               fontWeight: FontWeight.normal),
+  //         ),
+  //       ),
+  //       SliderView(
+  //         distValue: distValue,
+  //         onChangedistValue: (double value) {
+  //           distValue = value;
+  //         },
+  //       ),
+  //       const SizedBox(
+  //         height: 8,
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  Widget popularFilter() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
-          child: Text(
-            'Popular filters',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: Colors.grey,
-                fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
-                fontWeight: FontWeight.normal),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16),
-          child: Column(
-            children: getPList(),
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        )
-      ],
-    );
-  }
+  // Widget popularFilter() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: <Widget>[
+  //       Padding(
+  //         padding:
+  //             const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
+  //         child: Text(
+  //           'Popular filters',
+  //           textAlign: TextAlign.left,
+  //           style: TextStyle(
+  //               color: Colors.grey,
+  //               fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+  //               fontWeight: FontWeight.normal),
+  //         ),
+  //       ),
+  //       Padding(
+  //         padding: const EdgeInsets.only(right: 16, left: 16),
+  //         child: Column(
+  //           children: getPList(),
+  //         ),
+  //       ),
+  //       const SizedBox(
+  //         height: 8,
+  //       )
+  //     ],
+  //   );
+  // }
 
   List<Widget> getPList() {
     final List<Widget> noList = <Widget>[];
@@ -342,7 +404,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            'Price (for 1 night)',
+            'Price per person',
             textAlign: TextAlign.left,
             style: TextStyle(
                 color: Colors.grey,
