@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourist_guide_app/Presentation/core/Auth/Screens/Components/body.dart';
 import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/mainHome.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Travel App UI',
       debugShowCheckedModeBanner: false,
-      home: Body(),
+      home: LogInBody(),
     );
   }
 }
