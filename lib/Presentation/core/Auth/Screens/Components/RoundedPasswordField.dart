@@ -4,9 +4,12 @@ import 'package:tourist_guide_app/Presentation/core/Auth/constants.dart';
 
 class RoundedPasswordField extends StatelessWidget {
   final ValueChanged<String> onChanged;
+  final TextEditingController passwordController;
+
   const RoundedPasswordField({
     Key key,
     this.onChanged,
+    this.passwordController,
   }) : super(key: key);
 
   @override
@@ -15,6 +18,7 @@ class RoundedPasswordField extends StatelessWidget {
         child: TextField(
       obscureText: true,
       onChanged: onChanged,
+      controller: passwordController,
       decoration: InputDecoration(
           hintText: "Password",
           icon: Icon(
