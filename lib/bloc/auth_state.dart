@@ -7,21 +7,11 @@ class AuthInitial extends AuthState {}
 
 class Loading extends AuthState {}
 
+class LoggedIn extends AuthState {}
 
-//States for the filter page
+class LoggedOut extends AuthState {}
 
-
-// class AllToursFetched extends AuthState {
-//   final List<Tour> tours;
-//   AllToursFetched(this.tours);
-// }
-
-// class TourByNameFetched extends AuthState {
-//   final Tour tour;
-//   TourByNameFetched(this.tour);
-// }
-
-// class FilteredTours extends AuthState {
-//   final List<Tour> tours;
-//   FilteredTours(this.tours);
-// }
+class AuthError extends AuthState {
+  final String errMsg;
+  AuthError({this.errMsg, String errorMsg});
+}
