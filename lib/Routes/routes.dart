@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
-import 'package:tourist_guide_app/Presentation/core/AuthMain/loginPage.dart';
-import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
-import 'package:tourist_guide_app/Presentation/core/AuthMain/welcomePage.dart';
-import 'package:tourist_guide_app/Presentation/core/History/history.dart';
-import 'package:tourist_guide_app/Presentation/core/admin/home_screen.dart';
-import 'package:tourist_guide_app/Presentation/core/agent/home_screen.dart';
-import 'package:tourist_guide_app/Presentation/core/home/home.dart';
-import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
+
+import '../Presentation/Models/tour_list.dart';
+import '../Presentation/core/admin/home_screen.dart';
 
 class Routes {
   static Route generateRoute(RouteSettings settings) {
