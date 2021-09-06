@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 
 class HistoryPage extends StatefulWidget {
-  const HistoryPage({ Key? key }) : super(key: key);
+  static final String routeName = '/history';
 
   @override
   _HistoryPageState createState() => _HistoryPageState();
@@ -11,12 +10,9 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
-    
     return DefaultTabController(
-      length: 2, 
-      
+      length: 2,
       child: Scaffold(
-        
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Padding(
@@ -26,57 +22,50 @@ class _HistoryPageState extends State<HistoryPage> {
               style: TextStyle(
                 color: Colors.black,
               ),
-              ),
-          
+            ),
           ),
           bottom: TabBar(
             isScrollable: true,
-            indicatorColor: Colors. black,
+            indicatorColor: Colors.black,
             indicatorWeight: 5.0,
             onTap: (index) {},
-            tabs : <Widget>[
+            tabs: <Widget>[
               Padding(
                 padding: EdgeInsets.only(right: 50),
                 child: Tab(
-                  
                   child: Container(
                     child: Text(
                       'UPCOMING',
-                      style: TextStyle(color: Colors.black,fontSize: 12.0),
+                      style: TextStyle(color: Colors.black, fontSize: 12.0),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 50,right: 30),
+                padding: EdgeInsets.only(left: 50, right: 30),
                 child: Tab(
                   child: Container(
                     child: Text(
                       'PAST',
-                      style: TextStyle(color: Colors.black,fontSize: 12.0),
+                      style: TextStyle(color: Colors.black, fontSize: 12.0),
                     ),
                   ),
                 ),
               ),
             ],
-              
           ),
         ),
         body: TabBarView(
-          children: [
-            _buildListView('Upcoming'),
-            _buildListView('past')
-          ],
+          children: [_buildListView('Upcoming'), _buildListView('past')],
         ),
-      
       ),
     );
   }
 }
-ListView _buildListView(String s){
+
+ListView _buildListView(String s) {
   return ListView.builder(
-    itemBuilder: (context,index) => ListTile(
-      title: Text(s + ' ' + '$index'),
-    )
-    );
+      itemBuilder: (context, index) => ListTile(
+            title: Text(s + ' ' + '$index'),
+          ));
 }

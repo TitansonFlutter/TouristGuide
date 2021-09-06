@@ -7,14 +7,16 @@ import 'package:tourist_guide_app/Presentation/core/Auth/Screens/Components/logi
 import 'package:tourist_guide_app/Presentation/core/Auth/Screens/Components/roundedBtn.dart';
 import 'package:tourist_guide_app/Presentation/core/Auth/Screens/Components/textFieldContainer.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  static final String routeName = '/signup';
+
+  const SignUpPage({Key key}) : super(key: key);
 
   @override
   _SignUpState createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

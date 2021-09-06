@@ -13,6 +13,7 @@ import 'RoundedPasswordField.dart';
 import 'loginBody.dart';
 
 class LoginScreen extends StatefulWidget {
+  static final String routeName = '/login';
   const LoginScreen({Key key}) : super(key: key);
 
   @override
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
           AlreadyHaveAnAccount(
             pressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SignUp();
+                return SignUpPage();
               }));
             },
           )

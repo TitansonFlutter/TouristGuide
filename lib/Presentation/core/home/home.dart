@@ -10,12 +10,18 @@ import 'package:tourist_guide_app/Presentation/core/home/components/recommended.
 import 'package:tourist_guide_app/Presentation/core/home/components/recommended_places.dart';
 
 class HomeScreen extends StatelessWidget {
+  static final String routeName = '/home';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       appBar: buildAppBar(context,
-          title: 'Discover', leading: HamburgerMenu(), actions: [UserAvatar(),]),
+          title: 'Discover',
+          leading: HamburgerMenu(),
+          actions: [
+            UserAvatar(),
+          ]),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(

@@ -7,6 +7,8 @@ import '../../../repository/adminRepository/admin_repository.dart';
 import 'components/agent_display.dart';
 
 class AdminHome extends StatelessWidget {
+  static final String routeName = '/admin';
+
   final AdminRepository adminRepository = AdminRepository(AdminDataProvider());
 
   @override

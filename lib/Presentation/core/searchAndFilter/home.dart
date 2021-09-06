@@ -15,6 +15,8 @@ void main(List<String> args) {
 }
 
 class Body extends StatefulWidget {
+  static final String routeName = '/filter';
+
   @override
   _HomePageState createState() => _HomePageState();
 }
