@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MainDrawer extends StatefulWidget {
-  @override
-  _MainDrawerState createState() => _MainDrawerState();
-}
-
-class _MainDrawerState extends State<MainDrawer> {
+class MainDrawer extends StatelessWidget {
+  static final String routeName = "/drawer";
   @override
   Widget build(BuildContext context) {
     return Column(

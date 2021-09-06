@@ -1,5 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:tourist_guide_app/Presentation/core/History/history.dart';
+import 'package:tourist_guide_app/Presentation/core/admin/home_screen.dart';
+import 'package:tourist_guide_app/Presentation/core/home/home.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
 // import 'package:flutter_svg/svg.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 //import 'package:travel_app/constants.dart';
@@ -103,6 +107,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
         Icon(Icons.favorite, color: Colors.white),
         Icon(Icons.history, color: Colors.white),
       ],
+      onTap: (index) {
+        if (index == 0) {
+          Navigator.of(context).pushNamed(HomeScreen.routeName);
+        }
+        if (index == 1) {
+          Navigator.of(context).pushNamed(Body.routeName);
+        }
+        if (index == 2) {
+          Navigator.of(context).pushNamed(AdminHome.routeName);
+        }
+        if (index == 3) {
+          Navigator.of(context).pushNamed(HistoryPage.routeName);
+        }
+      },
     );
   }
 }

@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HistoryPage extends StatefulWidget {
-  static final String routeName = '/history';
-
-  @override
-  _HistoryPageState createState() => _HistoryPageState();
-}
-
-class _HistoryPageState extends State<HistoryPage> {
+class HistoryPage extends StatelessWidget {
+  static final String routeName = "/history";
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
