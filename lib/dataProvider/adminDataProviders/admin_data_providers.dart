@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tourist_guide_app/AuthException.dart';
 import 'package:tourist_guide_app/Presentation/Models/User.dart';
 
 class AdminDataProvider {
@@ -13,7 +14,8 @@ class AdminDataProvider {
       final agents = jsonDecode(response.body) as List;
       return agents.map((user) => User.fromJson(user)).toList();
     } else {
-      throw Exception("Could not fetch tours");
+      final err = jsonDecode(response.body);
+      throw AuthException(err["message"]);
     }
   }
 
@@ -32,7 +34,8 @@ class AdminDataProvider {
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Couldn't add agent ...");
+      final err = jsonDecode(response.body);
+      throw AuthException(err["message"]);
     }
   }
 
@@ -42,7 +45,8 @@ class AdminDataProvider {
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Could not update the course");
+      final err = jsonDecode(response.body);
+      throw AuthException(err["message"]);
     }
   }
 }
