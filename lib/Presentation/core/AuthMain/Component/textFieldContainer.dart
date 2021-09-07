@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
-
-import '../../constants.dart';
+import 'package:tourist_guide_app/Presentation/core/AuthMain/constants.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
-  final TextEditingController emailController;
+  final TextEditingController controller;
 
   const RoundedInputField({
     Key key,
     this.hintText,
     this.icon = Icons.person,
     this.onChanged,
-    this.emailController,
+    this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-        child: TextField(
+        child: TextFormField(
+      validator: (String value) {
+        if (value.isEmpty) {
+          return "Username is required";
+        }
+        return null;
+      },
       onChanged: onChanged,
-      controller: emailController,
+      controller: controller,
       decoration: InputDecoration(
         icon: Icon(
           icon,
@@ -49,7 +54,7 @@ class TextFieldContainer extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8),
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-        color: authIconColor,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(29),
       ),
       child: child,

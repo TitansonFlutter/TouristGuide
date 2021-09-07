@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tourist_guide_app/Presentation/core/Auth/Screens/Components/login.dart';
-import 'package:tourist_guide_app/Presentation/core/Auth/Screens/SignUP/signup.dart';
-import 'package:tourist_guide_app/Presentation/core/Auth/Screens/Welcome/welcomeScreen.dart';
+import 'package:tourist_guide_app/Presentation/core/AuthMain/loginPage.dart';
+import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
+import 'package:tourist_guide_app/Presentation/core/AuthMain/welcomePage.dart';
+
 import 'package:tourist_guide_app/Presentation/core/History/history.dart';
 import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
@@ -12,11 +13,11 @@ import '../Presentation/core/admin/home_screen.dart';
 class Routes {
   static Route generateRoute(RouteSettings settings) {
     if (settings.name == '/') {
-      return MaterialPageRoute(builder: (context) => WelcomeScreen());
+      return MaterialPageRoute(builder: (context) => WelcomePage());
     }
 // Auth
-    if (settings.name == LoginScreen.routeName) {
-      return MaterialPageRoute(builder: (context) => LoginScreen());
+    if (settings.name == LoginPage.routeName) {
+      return MaterialPageRoute(builder: (context) => LoginPage());
     }
     if (settings.name == SignUpPage.routeName) {
       return MaterialPageRoute(builder: (context) => SignUpPage());

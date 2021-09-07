@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../constants.dart';
+import 'package:tourist_guide_app/Presentation/core/AuthMain/constants.dart';
 
 class AlreadyHaveAnAccount extends StatelessWidget {
   final bool loggedIn;
