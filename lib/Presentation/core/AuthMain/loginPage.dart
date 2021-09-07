@@ -6,6 +6,7 @@ import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/textField
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/title.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/constants.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
+import 'package:tourist_guide_app/Presentation/core/admin/home_screen.dart';
 import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/bloc/auth_bloc.dart';
 
@@ -153,7 +154,7 @@ class LoginPage extends StatelessWidget {
                                 .pushNamed(HomeScreen.routeName);
                           } else if (authState.user.role == 1) {
                             Navigator.of(context)
-                                .pushNamed(AgentHome.routeName);
+                                .pushNamed(AdminHome.routeName);
                           } else if (authState.user.role == 2) {
                             Navigator.of(context)
                                 .pushNamed(AdminHome.routeName);

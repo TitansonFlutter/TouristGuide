@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tourist_guide_app/AuthException.dart';
 import 'package:tourist_guide_app/Presentation/Models/User.dart';
 
 class AuthDataProvider {
@@ -19,7 +20,8 @@ class AuthDataProvider {
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Couldn't add user ...");
+      final err = jsonDecode(response.body);
+      throw AuthException(err["message"]);
     }
   }
 
@@ -34,7 +36,8 @@ class AuthDataProvider {
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Couldn't get user info ...");
+      final err = jsonDecode(response.body);
+      throw AuthException(err["message"]);
     }
   }
 }
