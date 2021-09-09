@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:tourist_guide_app/Presentation/Models/Place.dart';
 import 'package:tourist_guide_app/Presentation/Models/hotel_list_data.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/calendar_popup_view.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/filters_screen.dart';
@@ -11,16 +12,20 @@ import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/hotel_app_theme.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/hotel_list_view.dart';
 
-class HotelHomeScreen extends StatefulWidget {
+class FilterScreen extends StatefulWidget {
+  List<Tour> tourList = [];
+  FilterScreen(this.tourList);
+
   @override
-  _HotelHomeScreenState createState() => _HotelHomeScreenState();
+  _FilterScreenState createState() => _FilterScreenState(this.tourList);
 }
 
-class _HotelHomeScreenState extends State<HotelHomeScreen>
+class _FilterScreenState extends State<FilterScreen>
     with TickerProviderStateMixin {
   AnimationController animationController;
-  List<HotelListData> hotelList = HotelListData.hotelList;
   final ScrollController _scrollController = ScrollController();
+  final List<Tour> tourList;
+  _FilterScreenState(this.tourList);
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
@@ -61,7 +66,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                 },
                 child: Column(
                   children: <Widget>[
-                    getAppBarUI(),
+                    // getAppBarUI(),
                     Expanded(
                       child: NestedScrollView(
                         controller: _scrollController,
@@ -91,12 +96,12 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                         body: Container(
                           // color: Colors.black,
                           child: ListView.builder(
-                            itemCount: hotelList.length,
+                            itemCount: tourList.length,
                             padding: const EdgeInsets.only(top: 8),
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
                               final int count =
-                                  hotelList.length > 10 ? 10 : hotelList.length;
+                                  tourList.length > 10 ? 10 : tourList.length;
                               final Animation<double> animation =
                                   Tween<double>(begin: 0.0, end: 1.0).animate(
                                       CurvedAnimation(
@@ -105,9 +110,9 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                                               (1 / count) * index, 1.0,
                                               curve: Curves.fastOutSlowIn)));
                               animationController?.forward();
-                              return HotelListView(
+                              return TourListView(
                                 callback: () {},
-                                hotelData: hotelList[index],
+                                tourData: tourList[index],
                                 animation: animation,
                                 animationController: animationController,
                               );
@@ -148,11 +153,11 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                   return const SizedBox();
                 } else {
                   return ListView.builder(
-                    itemCount: hotelList.length,
+                    itemCount: tourList.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (BuildContext context, int index) {
                       final int count =
-                          hotelList.length > 10 ? 10 : hotelList.length;
+                          tourList.length > 10 ? 10 : tourList.length;
                       final Animation<double> animation =
                           Tween<double>(begin: 0.0, end: 1.0).animate(
                               CurvedAnimation(
@@ -161,9 +166,9 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                                       curve: Curves.fastOutSlowIn)));
                       animationController?.forward();
 
-                      return HotelListView(
+                      return TourListView(
                         callback: () {},
-                        hotelData: hotelList[index],
+                        tourData: tourList[index],
                         animation: animation,
                         animationController: animationController,
                       );
@@ -180,8 +185,8 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
 
   Widget getHotelViewList() {
     final List<Widget> hotelListViews = <Widget>[];
-    for (int i = 0; i < hotelList.length; i++) {
-      final int count = hotelList.length;
+    for (int i = 0; i < tourList.length; i++) {
+      final int count = tourList.length;
       final Animation<double> animation =
           Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
@@ -190,9 +195,9 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
         ),
       );
       hotelListViews.add(
-        HotelListView(
+        TourListView(
           callback: () {},
-          hotelData: hotelList[i],
+          tourData: tourList[i],
           animation: animation,
           animationController: animationController,
         ),
@@ -433,7 +438,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '530 Tours found',
+                      tourList.length.toString() + 'Tours found',
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontSize: 16,
