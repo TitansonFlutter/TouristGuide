@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourist_guide_app/Presentation/core/Agent/home_screen.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/loginPage.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/welcomePage.dart';
@@ -26,12 +27,9 @@ class Routes {
     if (settings.name == HomeScreen.routeName) {
       return MaterialPageRoute(builder: (context) => HomeScreen());
     }
-    if (settings.name == Body.routeName) {
-      return MaterialPageRoute(builder: (context) => Body());
+    if (settings.name == AgentHome.routeName) {
+      return MaterialPageRoute(builder: (context) => AgentHome());
     }
-    // if (settings.name == AgentHome.routeName) {
-    //   return MaterialPageRoute(builder: (context) => AgentHome());
-    // }
     if (settings.name == HistoryPage.routeName) {
       return MaterialPageRoute(builder: (context) => HistoryPage());
     }

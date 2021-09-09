@@ -1,16 +1,22 @@
-# tourist_guide_app
+## Flutter Project : TourGuide Mobile App
 
-A new Flutter project.
+### Group Members
 
-## Getting Started
+    1. Mekides Bishaw        ATR/6446/11
+    2. Biruk Ayalew          ATR/4451/11
+    3. Abenezer Fekadu       ATR/7730/11
+    4. Tolosa Mitku          ATR/4992/11
+    5. Woldeamanual Getnet   ATR/9803/11
 
-This project is a starting point for a Flutter application.
+#### Information
 
-A few resources to get you started if this is your first Flutter project:
+An app where users search for a tour and book based on their preferences and where different Tour Agents are found in one place.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Features
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Users Account: Authentication and Authorization
+2. Admin Operation on TourGuides
+3. CRUD Operation for Tours
+4. Tour Review
+5. Booking Tours
+6. Accessing Previous Tour History
