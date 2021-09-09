@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourist_guide_app/Presentation/Models/popular_filter_list.dart';
+import 'package:tourist_guide_app/bloc/FilterBloc/bloc/filterbloc_bloc.dart';
 import 'range_slider_view.dart';
 import 'slider_view.dart';
 import 'hotel_app_theme.dart';
@@ -18,6 +20,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
+  double highPrice;
+  double lowPrice;
+  String tourName;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +82,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                     highlightColor: Colors.transparent,
                     onTap: () {
+                      print("Prices :" +
+                          highPrice.toString() +
+                          lowPrice.toString());
+                      final bloc = BlocProvider.of<FilterblocBloc>(context);
+                      bloc.add(Filter(highPrice, lowPrice, tourName));
+                      print("Below Bloc");
                       Navigator.pop(context);
                     },
                     child: Center(
@@ -131,6 +142,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               onChanged: (String newValue) {
                 setState(() {
                   dropdownvalue = newValue;
+                  tourName = newValue;
                 });
               },
             ),
@@ -416,6 +428,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
           values: _values,
           onChangeRangeValues: (RangeValues values) {
             _values = values;
+            highPrice = values.end;
+            lowPrice = values.start;
           },
         ),
         const SizedBox(
