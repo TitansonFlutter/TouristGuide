@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
-import 'package:tourist_guide_app/bloc/historyBloc/bloc.dart';
+import 'package:tourist_guide_app/bloc/historyBloc/history_bloc.dart';
 
 class HistoryPage extends StatelessWidget {
   static final String routeName = "/history";

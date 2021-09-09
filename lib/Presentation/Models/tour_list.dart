@@ -5,14 +5,14 @@ class Tour {
   final String country;
   final String region;
   final String city;
-  final String whatToInclude;
-  final String whatToExclude;
+  final List whatToInclude;
+  final List whatToExclude;
   final String tourDescription;
-  final String whatToBring;
-  final String itinerary;
-  final String duration;
+  final List whatToBring;
+  final List itinerary;
+  final int duration;
   final String startingDate;
-  final String price;
+  final double price;
   final bool updated;
 
   Tour(
