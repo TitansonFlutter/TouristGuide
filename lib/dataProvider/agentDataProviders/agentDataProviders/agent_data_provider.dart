@@ -43,4 +43,34 @@ class AgentDataProvider {
       throw Exception("Couldn't add tour ...");
     }
   }
+
+// Update Tour
+  Future<Tour> updateTour(int aId, int tId, Tour tour) async {
+    final http.Response response =
+        await http.put(Uri.parse("$_url/$aId/tours/$tId"),
+            headers: <String, String>{
+              "Content-Type": "application/json",
+            },
+            body: jsonEncode({
+              "TourNme": tour.tourName,
+              "TourImage": tour.tourImage,
+              "Country": tour.country,
+              "Region": tour.region,
+              "City": tour.city,
+              "WhatToInclude": tour.whatToInclude,
+              "WhatToExclude": tour.whatToExclude,
+              "TourDescription": tour.tourDescription,
+              "WhatToBring": tour.whatToBring,
+              "Itinerary": tour.itinerary,
+              "Duration": tour.duration,
+              "StartingDate": tour.startingDate,
+              "Price": tour.price,
+              "Updated": tour.updated,
+            }));
+    if (response.statusCode == 201) {
+      return Tour.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Couldn't update tour ...");
+    }
+  }
 }
