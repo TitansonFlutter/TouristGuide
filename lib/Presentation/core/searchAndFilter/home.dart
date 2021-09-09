@@ -1,28 +1,28 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:tourist_guide_app/Presentation/Models/Place.dart';
-import 'package:tourist_guide_app/Presentation/components/app_bar.dart';
-import 'package:tourist_guide_app/Presentation/components/hamburger_menu.dart';
-import 'package:tourist_guide_app/Presentation/components/user_avatar.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/mainHome.dart';
-import 'package:tourist_guide_app/Presentation/core/searchAndFilter/place_card.dart';
 
-void main(List<String> args) {
-  runApp(MaterialApp(
-    home: Body(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
+import 'package:tourist_guide_app/bloc/FilterBloc/bloc/filterbloc_bloc.dart';
 
-class Body extends StatefulWidget {
-  static final String routeName = "/filter";
+// void main(List<String> args) {
+//   runApp(MaterialApp(
+//     home: FilterScreenMain(),
+//     debugShowCheckedModeBanner: false,
+//   ));
+// }
 
+class FilterScreenMain extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<Body> {
+class _HomePageState extends State<FilterScreenMain> {
   static const historyLength = 5;
+  final formKey = GlobalKey<FormState>();
 
   List<String> _searchHistory = [
     'Lalibela',
@@ -88,6 +88,9 @@ class _HomePageState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<FilterblocBloc>(context);
+    bloc.add(FetchAllTours());
+
     return Scaffold(
       body: FilterSearchBar(),
     );
@@ -99,8 +102,43 @@ class _HomePageState extends State<Body> {
       borderRadius: BorderRadius.circular(100),
       controller: controller,
       body: FloatingSearchBarScrollNotifier(
-        child: SearchResultsListView(
-          searchTerm: selectedTerm,
+        child: BlocConsumer<FilterblocBloc, FilterblocState>(
+          listener: (ctx, state) {
+            print("state Consumer :" + state.toString());
+          },
+          builder: (context, state) {
+            if (state is FilteredTours) {
+              List<Tour> tours = state.tours;
+              return FilterScreen(tours);
+            }
+            if (state is TourByNameFetched) {
+              print(" STATE :" + state.toString());
+              List<Tour> tours = state.tours;
+              return FilterScreen(tours);
+            }
+            if (state is AllToursFetched) {
+              return FilterScreen(state.tours);
+
+              // searchTerm: selectedTerm,
+            }
+            if (state is Error) {
+              // try {
+              //   ScaffoldMessenger.of(context)
+              //       .showSnackBar(SnackBar(content: Text(state.errorMsg)));
+              // } catch (e) {}
+              return Center(child: Text(state.errorMsg));
+            }
+
+            if (state is Loading) {
+              print("Loading");
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [CircularProgressIndicator()],
+              );
+            }
+
+            return Center(child: Text("End of state"));
+          },
         ),
       ),
       transition: CircularFloatingSearchBarTransition(),
@@ -122,15 +160,19 @@ class _HomePageState extends State<Body> {
         ),
       ],
       onQueryChanged: (query) {
-        setState(() {
-          filteredSearchHistory = filterSearchTerms(filter: query);
-        });
+        final bloc = BlocProvider.of<FilterblocBloc>(context);
+        bloc.add(FetchTourByName(query));
+
+        filteredSearchHistory = filterSearchTerms(filter: query);
       },
       onSubmitted: (query) {
+        addSearchTerm(query);
         setState(() {
-          addSearchTerm(query);
           selectedTerm = query;
         });
+        final bloc = BlocProvider.of<FilterblocBloc>(context);
+        bloc.add(FetchTourByName(selectedTerm));
+
         controller.close();
       },
       builder: (context, transition) {
@@ -161,6 +203,8 @@ class _HomePageState extends State<Body> {
                       setState(() {
                         addSearchTerm(controller.query);
                         selectedTerm = controller.query;
+                        final bloc = BlocProvider.of<FilterblocBloc>(context);
+                        bloc.add(FetchTourByName(selectedTerm));
                       });
                       controller.close();
                     },
@@ -180,16 +224,16 @@ class _HomePageState extends State<Body> {
                             trailing: IconButton(
                               icon: const Icon(Icons.clear),
                               onPressed: () {
-                                setState(() {
-                                  deleteSearchTerm(term);
-                                });
+                                deleteSearchTerm(term);
                               },
                             ),
                             onTap: () {
-                              setState(() {
-                                putSearchTermFirst(term);
-                                selectedTerm = term;
-                              });
+                              putSearchTermFirst(term);
+                              selectedTerm = term;
+                              final bloc =
+                                  BlocProvider.of<FilterblocBloc>(context);
+                              bloc.add(FetchTourByName(selectedTerm));
+
                               controller.close();
                             },
                           ),
@@ -202,59 +246,6 @@ class _HomePageState extends State<Body> {
           ),
         );
       },
-    );
-  }
-}
-
-class SearchResultsListView extends StatelessWidget {
-  final String searchTerm;
-
-  const SearchResultsListView({
-    Key key,
-    @required this.searchTerm,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (searchTerm == '' || searchTerm == null) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(child: HotelHomeScreen())
-            // Icon(
-            //   Icons.home,
-            //   size: 64,
-            // ),
-            // Text(
-            //   'Start searching',
-            //   style: Theme.of(context).textTheme.headline5,
-            // )
-          ],
-        ),
-      );
-    }
-
-    final fsb = FloatingSearchBar.of(context);
-
-    return ListView(
-      padding:
-          EdgeInsets.only(top: fsb.value.height + fsb.value.margins.vertical),
-      children: List.generate(
-          10,
-          (index) => Column(
-                children: [
-                  SizedBox(
-                    height: 7,
-                  ),
-                  PlaceCard(
-                    place: demoPlaces[0],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                ],
-              )),
     );
   }
 }
