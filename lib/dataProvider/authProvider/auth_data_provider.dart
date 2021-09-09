@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:tourist_guide_app/AuthException.dart';
+import 'package:tourist_guide_app/outException.dart';
 import 'package:tourist_guide_app/Presentation/Models/User.dart';
 
 class AuthDataProvider {
@@ -21,7 +21,7 @@ class AuthDataProvider {
       return User.fromJson(jsonDecode(response.body));
     } else {
       final err = jsonDecode(response.body);
-      throw AuthException(err["message"]);
+      throw AppExc(err["message"]);
     }
   }
 
@@ -37,7 +37,7 @@ class AuthDataProvider {
       return User.fromJson(jsonDecode(response.body));
     } else {
       final err = jsonDecode(response.body);
-      throw AuthException(err["message"]);
+      throw AppExc(err["message"]);
     }
   }
 }

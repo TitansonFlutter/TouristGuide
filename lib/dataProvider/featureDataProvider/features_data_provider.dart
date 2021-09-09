@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tourist_guide_app/AuthException.dart';
+import 'package:tourist_guide_app/outException.dart';
 import 'package:tourist_guide_app/Presentation/Models/User.dart';
 import 'package:tourist_guide_app/Presentation/Models/review_model.dart';
 
@@ -17,7 +17,7 @@ class FeaturesDataProvider {
       return tours.map((tour) => Tour.fromJson(tour)).toList();
     } else {
       final err = jsonDecode(response.body);
-      throw AuthException(err["message"]);
+      throw AppExc(err["message"]);
     }
   }
 
@@ -50,7 +50,7 @@ class FeaturesDataProvider {
     } else {
       // print("Error");
       final err = jsonDecode(response.body);
-      throw AuthException(err["message"]);
+      throw AppExc(err["message"]);
     }
   }
 
