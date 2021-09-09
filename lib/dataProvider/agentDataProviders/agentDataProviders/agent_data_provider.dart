@@ -73,4 +73,35 @@ class AgentDataProvider {
       throw Exception("Couldn't update tour ...");
     }
   }
+
+// Delete Tour
+  Future<Tour> deleteTour(int aId, int tId) async {
+    final response = await http.delete(Uri.parse("$_url/$aId/tours/$tId"));
+    if (response.statusCode == 200) {
+      return Tour.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Could not Delete the tour");
+    }
+  }
+
+  Future<http.StreamedResponse> patchImage(
+      int aId, String filepath, Tour tour) async {
+    // String token = await storage.read(key: "token");
+    var request = http.MultipartRequest('PATCH', Uri.parse("$_url/$aId/tours"));
+    request.fields['data'] = jsonEncode(tour);
+    request.files.add(
+      await http.MultipartFile.fromPath("img", filepath),
+    );
+    // request.headers.addAll({
+    //   "Content-type": "multipart/form-data",
+    //   // "Authorization": "Bearer $token"
+    // });
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print(response);
+      return response;
+    } else {
+      throw Exception("Could not add the tour");
+    }
+  }
 }
