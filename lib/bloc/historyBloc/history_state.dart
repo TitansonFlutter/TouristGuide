@@ -1,7 +1,5 @@
 part of 'history_bloc.dart';
 
-import 'package:equatable/equatable.dart';
-import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 
 abstract class HistoryState extends Equatable {
   const HistoryState();

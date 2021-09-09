@@ -1,6 +1,5 @@
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 import 'package:tourist_guide_app/dataProvider/agentDataProviders/agentDataProviders/agent_data_provider.dart';
-import 'package:tourist_guide_app/dataProvider/agentDataProviders/agent_data_provider.dart';
 
 class AgentRepository {
   final AgentDataProvider _dataProvider;

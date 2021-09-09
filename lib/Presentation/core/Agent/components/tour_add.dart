@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
+import 'package:tourist_guide_app/bloc/agentBloc/agentBloc/agent_bloc.dart';
 
 class TourAdd extends StatefulWidget {
 
@@ -12,30 +16,36 @@ class _TourAddState extends State<TourAdd> {
 
     var _tourFormKey = GlobalKey<FormState>();
 
-    List<DynamicWidget> WhatIsIncluded  = [];
-    List<DynamicWidget> WhatIsExcluded  = [];
-    List<DynamicWidget> WhatToBring  = [];
+    List<DynamicWidget> whatIsIncluded  = [];
+    List<DynamicWidget> whatIsExcluded  = [];
+    List<DynamicWidget> whatToBring  = [];
 
-    List<DynamicWidget> Itinerary  = [];
+    List<DynamicWidget> itinerary  = [];
     addWhatIsIncluded(){
-      WhatIsIncluded.add(new DynamicWidget());
+      whatIsIncluded.add(new DynamicWidget());
       setState(() {
       });
     }
     addWhatIsExcluded(){
-      WhatIsExcluded.add(new DynamicWidget());
+      whatIsExcluded.add(new DynamicWidget());
       setState(() {
       });
     }
     addWhatToBring(){
-      WhatToBring.add(new DynamicWidget());
+      whatToBring.add(new DynamicWidget());
       setState(() {
       });
     }
     addItinerary(){
-      Itinerary.add(new DynamicWidget());
+      itinerary.add(new DynamicWidget());
       setState(() {
       });
+    }
+
+    @override
+    void initState() {
+      dateController.text = ""; //set the initial value of text field
+      super.initState();
     }
 
   
@@ -46,6 +56,9 @@ class _TourAddState extends State<TourAdd> {
   TextEditingController regionController = TextEditingController();
 
   TextEditingController cityController = TextEditingController();
+
+  TextEditingController dateController = TextEditingController();
+
 
   TextEditingController durationController = TextEditingController();
 
@@ -73,28 +86,70 @@ class _TourAddState extends State<TourAdd> {
                   _textField("Enter country name",countryController),
                   _textField("Enter region name",regionController),
                   _textField("Enter city name",cityController),
+                  _textFieldWithCalendar(),
                   _textFieldWithNumberKeyboard("Enter duration",durationController),
                   _textFieldWithNumberKeyboard("Enter price",priceController),
                   _multiLineText(tourDescriptionController),
                   _expandedFields(addWhatIsIncluded,"What to include"),
                  
-                  _addTourListView(WhatIsIncluded),
+                  _addTourListView(whatIsIncluded),
                   _expandedFields(addWhatIsExcluded,"What to exclude"),
-                  _addTourListView(WhatIsExcluded),
+                  _addTourListView(whatIsExcluded),
                   _expandedFields(addWhatToBring,"What to bring"),
-                  _addTourListView(WhatToBring),
+                  _addTourListView(whatToBring),
                   _expandedFields(addItinerary,"Itinerary"),
-                  _addTourListView(Itinerary),
-                  ElevatedButton(
+                  _addTourListView(itinerary),
+                  BlocConsumer<AgentBloc,AgentState>(
+                    listener: (ctx,state){},
+                    builder: (ctx,state){
+
+                  return ElevatedButton(
                       onPressed: () {
-                      // Validate returns true if the form is valid, otherwise false.
                       if (!_tourFormKey.currentState.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                      }_tourFormKey.currentState.save();
+                          return;
+                      }
+                      List included = [];
+                      for(var i = 0;i < whatIsIncluded.length;i++){
+                        included.add(whatIsIncluded[i].controller.value);
+                      }
+                      List excluded = [];
+                      for(var i = 0;i < whatIsIncluded.length;i++){
+                        excluded.add(whatIsExcluded[i].controller.value);
+                      }
+                      List bring = [];
+                      for(var i = 0;i < whatIsIncluded.length;i++){
+                        bring.add(whatToBring[i].controller.value);
+                      }
+                      List itineraryCollection = [];
+                      for(var i = 0;i < itinerary.length;i++){
+                        itineraryCollection.add(itinerary[i].controller.value);
+                      }
+                      _tourFormKey.currentState.save();
+                      final AgentEvent event = CreateTour(1,
+                       Tour(
+                         2,
+                         tourNameController.text,
+                         "Image",
+                         countryController.text,
+                         regionController.text,
+                         cityController.text,
+                         included,
+                         excluded,
+                         tourDescriptionController.text,
+                         bring,
+                         itineraryCollection,
+                         int.parse(durationController.text),
+                         dateController.text,
+                         double.parse(priceController.text),
+                         false,
+                       ),
+                       );
+                      BlocProvider.of<AgentBloc>(context).add(event);
                       },
+                      
                       child: Text("Submit"),
-                    ),
+                    );
+                  }),
                               
                   
                   
@@ -106,6 +161,37 @@ class _TourAddState extends State<TourAdd> {
       ),
     );
   }
+
+  Widget _textFieldWithCalendar(){
+  return Container(
+    padding: EdgeInsets.all(10),
+    child: TextFormField(
+        controller: dateController,
+        validator: (String value){
+          if(dateController.value.text.isEmpty){
+            return "Please insert data";
+          } 
+          return null;
+        },
+        readOnly: true,
+        decoration: InputDecoration( 
+          icon: Icon(Icons.calendar_today), //icon of text field
+          labelText: "Enter Date" //label text of field
+        ),
+        onTap: () async{
+          DateTime pickedDate = await showDatePicker(
+              context: context, initialDate: DateTime.now(),
+              firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+              lastDate: DateTime(2101)
+          );
+          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); 
+          setState(() {
+              dateController.text = formattedDate; //set output date to TextField value. 
+          });
+        },
+      ),
+  );
+}
 
   // Widget _tourSubmit(){
   //   List tour = [];
@@ -154,6 +240,7 @@ Widget _textFieldWithNumberKeyboard(String placeholder,TextEditingController con
           if(controller.value.text.isEmpty){
             return "Please " + "${placeholder}";
           }
+          return null;
         },
         decoration: InputDecoration(
           hintText: "eg.50",
@@ -174,7 +261,7 @@ Widget _textField(String placeholder,TextEditingController controller){
           if(controller.value.text.isEmpty){
             return "Please ${placeholder}";
           }
-          
+          return null;
         },
         decoration: InputDecoration(
           labelText: placeholder,
@@ -217,6 +304,7 @@ class DynamicWidget extends StatelessWidget {
           if(controller.value.text.isEmpty){
             return "Please enter data";
           }
+          return null;
         },
         decoration: new InputDecoration(hintText: "Enter Data"),
       ),
@@ -259,5 +347,6 @@ Widget _card(){
   ),
 );
 }
+
 
 

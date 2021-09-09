@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/Routes/routes.dart';
 
 import 'package:tourist_guide_app/bloc/auth_bloc.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Travel App UI',
         debugShowCheckedModeBanner: false,
-        home: WelcomePage(),
+        home: HomeScreen(),
         onGenerateRoute: Routes.generateRoute,
       ),
     );
