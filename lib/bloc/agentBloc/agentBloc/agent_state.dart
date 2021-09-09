@@ -1,7 +1,5 @@
 part of 'agent_bloc.dart';
 
-import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
-
 abstract class AgentState extends Equatable {
   const AgentState();
 
