@@ -40,4 +40,22 @@ class AuthDataProvider {
       throw AppExc(err["message"]);
     }
   }
+
+  // edit
+  Future<User> updateProfile(User user, int id) async {
+    final http.Response response = await http.put(Uri.parse("$_url/$id"),
+        headers: <String, String>{"Content-Type": "application/json"},
+        body: jsonEncode({
+          "Email": user.email,
+          "Password": user.password,
+          "UserName": user.username,
+          "Role": user.role,
+        }));
+    if (response.statusCode == 200) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      final err = jsonDecode(response.body);
+      throw AppExc(err["message"]);
+    }
+  }
 }
