@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourist_guide_app/Presentation/core/Agent/components/tour_add.dart';
 import 'package:tourist_guide_app/Presentation/core/Agent/home_screen.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/loginPage.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
@@ -55,6 +56,9 @@ class Routes {
 
     if (settings.name == AgentHome.routeName) {
       return MaterialPageRoute(builder: (context) => AgentHome());
+    }
+    if (settings.name == TourAdd.routeName) {
+      return MaterialPageRoute(builder: (context) => TourAdd());
     }
   }
 }

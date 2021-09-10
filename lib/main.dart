@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourist_guide_app/Presentation/core/Agent/home_screen.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/welcomePage.dart';
 import 'package:tourist_guide_app/Presentation/core/admin/home_screen.dart';
 import 'package:tourist_guide_app/Presentation/core/home/home.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Travel App UI',
         debugShowCheckedModeBanner: false,
-        home: AdminHome(),
+        home: AgentHome(),
         onGenerateRoute: Routes.generateRoute,
       ),
     );

@@ -4,9 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
+import 'package:tourist_guide_app/Presentation/core/Agent/home_screen.dart';
 import 'package:tourist_guide_app/bloc/agentBloc/agentBloc/agent_bloc.dart';
 
 class TourAdd extends StatefulWidget {
+  static const routeName = '/tourAdd';
+
   @override
   _TourAddState createState() => _TourAddState();
 }
@@ -61,6 +64,14 @@ class _TourAddState extends State<TourAdd> {
 
   TextEditingController tourDescriptionController = TextEditingController();
 
+  TextEditingController whatToIncludeController = TextEditingController();
+
+  TextEditingController whatToExcludeController = TextEditingController();
+
+  TextEditingController whatToBringController = TextEditingController();
+
+  TextEditingController itineraryController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -84,65 +95,42 @@ class _TourAddState extends State<TourAdd> {
                     "Enter duration", durationController),
                 _textFieldWithNumberKeyboard("Enter price", priceController),
                 _multiLineText(tourDescriptionController),
-                _expandedFields(addWhatIsIncluded, "What to include"),
-                _addTourListView(whatIsIncluded),
-                _expandedFields(addWhatIsExcluded, "What to exclude"),
-                _addTourListView(whatIsExcluded),
-                _expandedFields(addWhatToBring, "What to bring"),
-                _addTourListView(whatToBring),
-                _expandedFields(addItinerary, "Itinerary"),
-                _addTourListView(itinerary),
-                BlocConsumer<AgentBloc, AgentState>(
-                    listener: (ctx, state) {},
-                    builder: (ctx, state) {
-                      return ElevatedButton(
-                        onPressed: () {
-                          if (!_tourFormKey.currentState.validate()) {
-                            return;
-                          }
-                          List included = [];
-                          for (var i = 0; i < whatIsIncluded.length; i++) {
-                            included.add(whatIsIncluded[i].controller.value);
-                          }
-                          List excluded = [];
-                          for (var i = 0; i < whatIsIncluded.length; i++) {
-                            excluded.add(whatIsExcluded[i].controller.value);
-                          }
-                          List bring = [];
-                          for (var i = 0; i < whatIsIncluded.length; i++) {
-                            bring.add(whatToBring[i].controller.value);
-                          }
-                          List itineraryCollection = [];
-                          for (var i = 0; i < itinerary.length; i++) {
-                            itineraryCollection
-                                .add(itinerary[i].controller.value);
-                          }
-                          _tourFormKey.currentState.save();
-                          final AgentEvent event = CreateTour(
-                            1,
-                            Tour(
-                              2,
-                              tourNameController.text,
-                              "Image",
-                              countryController.text,
-                              regionController.text,
-                              cityController.text,
-                              included,
-                              excluded,
-                              tourDescriptionController.text,
-                              bring,
-                              itineraryCollection,
-                              int.parse(durationController.text),
-                              dateController.text,
-                              double.parse(priceController.text),
-                              false,
-                            ),
-                          );
-                          BlocProvider.of<AgentBloc>(context).add(event);
-                        },
-                        child: Text("Submit"),
-                      );
-                    }),
+                _textField("What to include", whatToIncludeController),
+                _textField("What to exclude", whatToExcludeController),
+                _textField("what to bring", whatToBringController),
+                _textField("Itinerary", itineraryController),
+                ElevatedButton(
+                  onPressed: () {
+                    if (!_tourFormKey.currentState.validate()) {
+                      return;
+                    }
+
+                    _tourFormKey.currentState.save();
+                    final AgentEvent event = CreateTour(
+                      1,
+                      Tour(
+                        2,
+                        tourNameController.text,
+                        "Image",
+                        countryController.text,
+                        regionController.text,
+                        cityController.text,
+                        whatToIncludeController.text,
+                        whatToExcludeController.text,
+                        tourDescriptionController.text,
+                        whatToBringController.text,
+                        itineraryController.text,
+                        int.parse(durationController.text),
+                        dateController.text,
+                        double.parse(priceController.text),
+                        false,
+                      ),
+                    );
+                    BlocProvider.of<AgentBloc>(context).add(event);
+                    Navigator.pushNamed(context, AgentHome.routeName)
+                  },
+                  child: Text("Submit"),
+                )
               ],
             ),
           ),
@@ -183,10 +171,6 @@ class _TourAddState extends State<TourAdd> {
       ),
     );
   }
-
-  // Widget _tourSubmit(){
-  //   List tour = [];
-  // }
 
   Widget _addTourListView(List current) {
     return ListView.builder(
@@ -268,6 +252,7 @@ Widget _multiLineText(TextEditingController controller) {
         if (controller.value.text.isEmpty) {
           return "Please enter tour description";
         }
+        return null;
       },
       decoration: InputDecoration(
         labelText: "Tour description goes here",
@@ -297,23 +282,6 @@ class DynamicWidget extends StatelessWidget {
   }
 }
 
-// child: Icon(Icons.android,size: 60, color: Colors.grey[800]),
-// decoration: BoxDecoration(
-//   colors: Colors.grey[300],
-//   shape: BoxShape.circle,
-//   boxShadow: [
-//     BoxShadow(
-//       color: Offset(4.0,4.0),
-//       blurRadius: 15.0,
-//       spreadRadius: 1.0),
-//     BoxShadow(
-//       color: Colors.white,
-//       offset: Offset(-4.0,-4.0),
-//       blurRadius: 15.0,
-//       spreadRadius: 1.0),
-
-//   ],
-// ),
 Widget _card() {
   return Card(
     shape: RoundedRectangleBorder(
