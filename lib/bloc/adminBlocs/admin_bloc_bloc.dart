@@ -39,7 +39,6 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     }
     if (event is DeleteAgent) {
       try {
-        print(event.id);
         await adminRepository.deleteAgent(event.id);
         final agents = await adminRepository.fetchAllAgents();
         yield AgentOperationSuccess(agents);

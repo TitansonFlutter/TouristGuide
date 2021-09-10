@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourist_guide_app/Presentation/Models/User.dart';
+import 'package:tourist_guide_app/Presentation/core/admin/home_screen.dart';
 
 import '../../../../bloc/adminBlocs/bloc.dart';
 
 class AgentAdd extends StatelessWidget {
+  static const String routeName = '/agentAdd';
+
   // const AgentCardView({ Key? key }) : super(key: key);
 
   final emailController = TextEditingController();
@@ -51,6 +54,8 @@ class AgentAdd extends StatelessWidget {
                         passwordController.text,
                       ),
                     );
+                    Navigator.pushNamed(context, AdminHome.routeName);
+
                     BlocProvider.of<AdminBloc>(context).add(event);
                   },
                 ),

@@ -6,6 +6,7 @@ import 'package:tourist_guide_app/Presentation/core/AuthMain/welcomePage.dart';
 
 import 'package:tourist_guide_app/Presentation/core/History/history.dart';
 import 'package:tourist_guide_app/Presentation/core/Profile/profile.dart';
+import 'package:tourist_guide_app/Presentation/core/admin/components/agent_add.dart';
 import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
 import 'package:tourist_guide_app/Presentation/core/tour_info_screen.dart';
@@ -41,6 +42,9 @@ class Routes {
     // Admin
     if (settings.name == AdminHome.routeName) {
       return MaterialPageRoute(builder: (context) => AdminHome());
+    }
+    if (settings.name == AgentAdd.routeName) {
+      return MaterialPageRoute(builder: (context) => AgentAdd());
     }
 
     // Tour

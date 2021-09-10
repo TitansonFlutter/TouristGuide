@@ -6,6 +6,8 @@ import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/textField
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/title.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/constants.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
+import 'package:tourist_guide_app/Presentation/core/admin/home_screen.dart';
+import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/bloc/auth_bloc.dart';
 
 import 'Widget/bezierContainer.dart';
@@ -116,7 +118,16 @@ class _LoginPageState extends State<LoginPage> {
                       listener: (ctx, authState) {
                         if (authState is AuthSuccess) {
                           print(authState.user);
-                          Navigator.pushNamed(context, '/home');
+                          if (authState.user.role == 0) {
+                            Navigator.of(context)
+                                .pushNamed(HomeScreen.routeName);
+                          } else if (authState.user.role == 1) {
+                            Navigator.of(context)
+                                .pushNamed(AdminHome.routeName);
+                          } else if (authState.user.role == -1) {
+                            Navigator.of(context)
+                                .pushNamed(AdminHome.routeName);
+                          }
                         }
                       },
                       builder: (ctx, authState) {

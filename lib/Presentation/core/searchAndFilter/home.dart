@@ -11,13 +11,6 @@ import 'package:tourist_guide_app/Presentation/core/searchAndFilter/mainHome.dar
 
 import 'package:tourist_guide_app/bloc/FilterBloc/bloc/filterbloc_bloc.dart';
 
-// void main(List<String> args) {
-//   runApp(MaterialApp(
-//     home: FilterScreenMain(),
-//     debugShowCheckedModeBanner: false,
-//   ));
-// }
-
 class FilterScreenMain extends StatefulWidget {
   static final String routeName = "/filter";
   @override
@@ -25,10 +18,6 @@ class FilterScreenMain extends StatefulWidget {
 }
 
 class _HomePageState extends State<FilterScreenMain> {
-  //  final CurvedNavigationBar navBarState =
-  //                     _bottomNavigationKey.currentState;
-  //                 navBarState.setPage(1);
-
   static const historyLength = 5;
   final formKey = GlobalKey<FormState>();
 
@@ -36,7 +25,8 @@ class _HomePageState extends State<FilterScreenMain> {
     'Lalibela',
     'Axum',
     'Gondar Fasil',
-    'Hammer',
+    'Harer',
+    'Tana',
   ];
 
   List<String> filteredSearchHistory;
@@ -125,8 +115,8 @@ class _HomePageState extends State<FilterScreenMain> {
             }
             if (state is TourByNameFetched) {
               // print(" STATE :" + state.toString());
-              List<Tour> tours = state.tours;
-              return FilterScreen(tours);
+              // List<Tour> tours = state.tours;
+              return FilterScreen(state.tours);
             }
             if (state is AllToursFetched) {
               return FilterScreen(state.tours);
@@ -184,7 +174,7 @@ class _HomePageState extends State<FilterScreenMain> {
         final bloc = BlocProvider.of<FilterblocBloc>(context);
         bloc.add(FetchTourByName(selectedTerm));
 
-        controller.close();
+        // controller.close();
       },
       builder: (context, transition) {
         return ClipRRect(

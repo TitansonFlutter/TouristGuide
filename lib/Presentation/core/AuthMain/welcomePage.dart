@@ -6,6 +6,7 @@ import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/title.dar
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/topGradient.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/loginPage.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
+import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/appConstants.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _WelcomePageState extends State<WelcomePage> {
       },
       child: Container(
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: EdgeInsets.symmetric(vertical: 13),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -34,7 +35,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: EdgeInsets.symmetric(vertical: 13),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: SecondaryColor,
@@ -56,7 +57,7 @@ class _WelcomePageState extends State<WelcomePage> {
       },
       child: Container(
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: EdgeInsets.symmetric(vertical: 13),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: SecondaryColor,
@@ -76,17 +77,52 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    getuser() async {
-      try {
-        final user = await SaveUsersDb.instance.readUser();
-        return user;
-      } catch (e) {
-        print("ERROR OCCURED :" + e);
-      }
-    }
+    return getuser();
+    // print(getuser().then((value) => value.username));
+  }
 
-    print("USER RETRIEVED");
-    print(getuser().then((value) => value.username));
+  // Future<List> user() {
+  //   try {
+  //     final user = SaveUsersDb.instance.readUser();
+  //     if (user != null) {
+
+  //       return null;
+
+  //       // Navigator.pushNamed(context, HomeScreen.routeName);
+  //     } else {
+  //       SaveUsersDb.instance.close();
+
+  //       return user;
+  //       // Navigator.pushNamed(context, '/');
+  //     }
+  //   } catch (e) {
+  //     return null;
+  //   }
+  //   }
+  Widget getuser() {
+    try {
+      // final user = SaveUsersDb.instance.readUser();
+
+      // print(user[0]['email']);
+      final user = null;
+      if (user != null) {
+        // Navigator.pushNamed(context, HomeScreen.routeName);
+
+        return Container(child: Text("Text"));
+      } else {
+        // SaveUsersDb.instance.close();
+
+        return wel();
+        // Navigator.pushNamed(context, '/');
+      }
+    } catch (e) {
+      return Container(child: Text("Error"));
+
+      // print("ERROR OCCURED :" + e);
+    }
+  }
+
+  Widget wel() {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -107,8 +143,9 @@ class _WelcomePageState extends State<WelcomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _title(),
+              // Text("$getuser()"),
               SizedBox(
-                height: 40,
+                height: 80,
               ),
               _submitButton(),
               SizedBox(

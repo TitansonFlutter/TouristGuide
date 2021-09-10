@@ -30,11 +30,11 @@ class HistoryPage extends StatelessWidget {
               index = index;
               if (index == 0) {
                 final historyBloc = BlocProvider.of<HistoryBloc>(context);
-                historyBloc.add(UpcomingEvent(1));
+                historyBloc.add(UpcomingEvent(3));
               }
               if (index == 1) {
                 final historyBloc = BlocProvider.of<HistoryBloc>(context);
-                historyBloc.add(PastEvent(1));
+                historyBloc.add(PastEvent(3));
               }
             },
             tabs: <Widget>[
@@ -68,6 +68,11 @@ class HistoryPage extends StatelessWidget {
             BlocConsumer<HistoryBloc, HistoryState>(
                 listener: (ctx, historySate) {},
                 builder: (ctx, historySate) {
+                  if (historySate is HistoryFailure) {
+                    return Center(
+                      child: Text(historySate.txt),
+                    );
+                  }
                   if (historySate is UpcomingState) {
                     final temp = historySate.tours;
                     return _buildListView(temp);
@@ -77,6 +82,11 @@ class HistoryPage extends StatelessWidget {
             BlocConsumer<HistoryBloc, HistoryState>(
                 listener: (ctx, historySate) {},
                 builder: (ctx, historySate) {
+                  if (historySate is HistoryFailure) {
+                    return Center(
+                      child: Text(historySate.txt),
+                    );
+                  }
                   if (historySate is PastState) {
                     final temp = historySate.tours;
                     return _buildListView(temp);
@@ -94,14 +104,10 @@ ListView _buildListView(Iterable<Tour> tours) {
   return ListView.builder(
     itemCount: tours.length,
     itemBuilder: (BuildContext context, int index) {
-      // return ListTile(
-      //   title: Text("${agents.elementAt(index).username}"),
-      //   subtitle: Text("${agents.elementAt(index).email}"),
-      //   onTap: () {},
       return ListTile(
           leading: Icon(Icons.landscape),
           title: Text("${tours.elementAt(index).tourName}"),
-          subtitle: Text("${tours.elementAt(index).tourDescription}"),
+          subtitle: Text("${tours.elementAt(index).startingDate}"),
           trailing: Icon(Icons.favorite));
     },
   );

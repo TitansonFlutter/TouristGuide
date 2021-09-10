@@ -22,7 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield AuthInProgress();
       final email = event.email;
       final password = event.password;
-
+      // User(this.userId, this.email, this.username, this.role,
+      //     [this.password, this.id]);
       final user = User(0, email, "username", 0, password);
 
       try {

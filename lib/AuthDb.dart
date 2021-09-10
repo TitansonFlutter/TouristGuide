@@ -33,6 +33,18 @@ class SaveUsersDb {
 
     await db.execute(
         'CREATE TABLE $userTableName (id INTEGER PRIMARY KEY AUTOINCREMENT, userid INTEGER, email TEXT, username TEXT, role INTEGER)');
+//
+//
+// '''
+// CREATE TABLE $userTableName(
+//   ${UserField.id} $idType,
+//   ${UserField.userId} $integerType,
+//   ${UserField.email} $textType,
+//   ${UserField.username} $textType,
+//   ${UserField.role} $integerType,
+//   )
+
+// ''');
   }
 
   Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
@@ -50,7 +62,7 @@ class SaveUsersDb {
 
     await db.transaction((txn) async {
       var data = await txn.rawQuery("SELECT * FROM $userTableName");
-      print("Length == " + data.toString());
+      print("Length == " + data.length.toString());
       if (data.length <= 0) {
         int id1 = await txn.rawInsert(
             'INSERT INTO $userTableName (userId, email, username, role) VALUES( ${user.userId}, "${user.email}", "${user.username}", ${user.role} ) ');
@@ -61,27 +73,24 @@ class SaveUsersDb {
     return user.copy(id: -1);
   }
 
-  Future<User> readUser() async {
+  Future<List> readUser() async {
     final db = await instance.database;
+    List<Map<String, Object>> data =
+        await db.rawQuery(" SELECT * FROM $userTableName ");
 
-    final maps = await db.query(
-      userTableName,
-      columns: UserField.values,
-    );
-    if (maps.isNotEmpty) {
-      print("RETURN FROM DB : " + maps.toString());
-      return User.fromJson(maps.first);
+    if (data.isNotEmpty) {
+      return data;
+      // print("RETURN FROM DB : " + data.toString());
+      // return User.fromJson(data.first);
     } else {
-      print("RETURENED " + maps.toString());
+      print("Error Fetching ");
     }
   }
 
-  Future delete(int id) async {
+  Future delete() async {
     final db = await instance.database;
 
     var data = await db.rawQuery("TRUNCATE FROM $userTableName");
-
-    print(data);
   }
 
   Future close() async {

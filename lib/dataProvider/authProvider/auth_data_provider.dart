@@ -29,10 +29,10 @@ class AuthDataProvider {
     final http.Response response = await http.post(Uri.parse("$url/auth/login"),
         headers: <String, String>{"Content-Type": "application/json"},
         body: jsonEncode({
-          "Email": user.username,
+          "Email": user.email,
           "Password": user.password,
         }));
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
     } else {
       final err = jsonDecode(response.body);
