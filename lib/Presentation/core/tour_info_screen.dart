@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourist_guide_app/Presentation/Models/review_model.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
+import 'package:tourist_guide_app/appConstants.dart';
 import 'package:tourist_guide_app/bloc/featuresBloc/bloc.dart';
 import 'package:tourist_guide_app/dataProvider/featureDataProvider/features_data_provider.dart';
 import 'package:tourist_guide_app/repository/features_repository.dart';
@@ -77,8 +78,8 @@ class _TourInfoScreenState extends State<TourInfoScreen>
                   children: <Widget>[
                     AspectRatio(
                       aspectRatio: 1.2,
-                      child: Image.network(
-                          "http://10.6.250.16:5000/api/agents/images/${tour.tourImage}"),
+                      child:
+                          Image.network("$url/agents/images/${tour.tourImage}"),
                     ),
                   ],
                 ),

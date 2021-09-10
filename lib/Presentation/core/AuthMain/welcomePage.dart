@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:tourist_guide_app/AuthDb.dart';
+import 'package:tourist_guide_app/Presentation/Models/User.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/roundedBtn.dart';
+import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/title.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/topGradient.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/loginPage.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
+import 'package:tourist_guide_app/Presentation/core/home/home.dart';
+import 'package:tourist_guide_app/appConstants.dart';
 
-// class WelcomePage extends StatefulWidget {
-//   WelcomePage({Key key, this.title}) : super(key: key);
+class WelcomePage extends StatefulWidget {
+  WelcomePage({Key key, this.title}) : super(key: key);
 
-//   final String title;
+  final String title;
 
-//   @override
-//   _WelcomePageState createState() => _WelcomePageState();
-// }
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
 
-class WelcomePage extends StatelessWidget {
-  Widget _submitButton(context) {
+class _WelcomePageState extends State<WelcomePage> {
+  Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(LoginPage.routeName);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
       child: Container(
           width: MediaQuery.of(context).size.width,
@@ -32,83 +38,91 @@ class WelcomePage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 13),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                border: Border.all(color: Colors.white, width: 2),
+                color: SecondaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+                border: Border.all(color: SecondaryColor, width: 2),
               ),
               child: RoundedButton(
                 text: "Login",
+                color: SecondaryColor,
               ))),
     );
   }
 
-  Widget _signUpButton(context) {
+  Widget _signUpButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(SignUpPage.routeName);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
       child: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.symmetric(vertical: 13),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            border: Border.all(color: Colors.white, width: 2),
+            color: SecondaryColor,
+            borderRadius: BorderRadius.all(Radius.circular(80)),
+            border: Border.all(color: SecondaryColor, width: 2),
           ),
           child: RoundedButton(
             text: "Register",
+            color: SecondaryColor,
           )),
     );
   }
 
-  // Widget _label() {
-  //   return Container(
-  //       margin: EdgeInsets.only(top: 40, bottom: 20),
-  //       child: Column(
-  //         children: <Widget>[
-  //           Text(
-  //             'Quick login with Touch ID',
-  //             style: TextStyle(color: Colors.white, fontSize: 17),
-  //           ),
-  //           SizedBox(
-  //             height: 20,
-  //           ),
-  //           Icon(Icons.fingerprint, size: 90, color: Colors.white),
-  //           SizedBox(
-  //             height: 20,
-  //           ),
-  //           Text(
-  //             'Touch ID',
-  //             style: TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 15,
-  //               decoration: TextDecoration.underline,
-  //             ),
-  //           ),
-  //         ],
-  //       ));
-  // }
-
   Widget _title() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'T',
-          style: TextStyle(color: Colors.white, fontSize: 30),
-          children: [
-            TextSpan(
-              text: 'our',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            ),
-            TextSpan(
-              text: 'vago',
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-          ]),
-    );
+    return TitleName();
   }
 
   @override
   Widget build(BuildContext context) {
+    return getuser();
+    // print(getuser().then((value) => value.username));
+  }
+
+  // Future<List> user() {
+  //   try {
+  //     final user = SaveUsersDb.instance.readUser();
+  //     if (user != null) {
+
+  //       return null;
+
+  //       // Navigator.pushNamed(context, HomeScreen.routeName);
+  //     } else {
+  //       SaveUsersDb.instance.close();
+
+  //       return user;
+  //       // Navigator.pushNamed(context, '/');
+  //     }
+  //   } catch (e) {
+  //     return null;
+  //   }
+  //   }
+  Widget getuser() {
+    try {
+      // final user = SaveUsersDb.instance.readUser();
+
+      // print(user[0]['email']);
+      final user = null;
+      if (user != null) {
+        // Navigator.pushNamed(context, HomeScreen.routeName);
+
+        return Container(child: Text("Text"));
+      } else {
+        // SaveUsersDb.instance.close();
+
+        return wel();
+        // Navigator.pushNamed(context, '/');
+      }
+    } catch (e) {
+      return Container(child: Text("Error"));
+
+      // print("ERROR OCCURED :" + e);
+    }
+  }
+
+  Widget wel() {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -129,14 +143,15 @@ class WelcomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _title(),
+              // Text("$getuser()"),
               SizedBox(
                 height: 80,
               ),
-              _submitButton(context),
+              _submitButton(),
               SizedBox(
                 height: 20,
               ),
-              _signUpButton(context),
+              _signUpButton(),
               SizedBox(
                 height: 20,
               ),

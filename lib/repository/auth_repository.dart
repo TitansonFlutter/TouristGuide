@@ -13,4 +13,8 @@ class AuthRepository {
   Future<User> signup(User user) async {
     return this._dataProvider.signup(user);
   }
+
+  Future<User> updateProfile(User user, int id) async {
+    return this._dataProvider.updateProfile(user, id);
+  }
 }

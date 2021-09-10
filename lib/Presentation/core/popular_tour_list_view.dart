@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 import 'package:tourist_guide_app/Presentation/core/tour_info_screen.dart';
 import 'package:tourist_guide_app/Presentation/core/tour_app_theme.dart';
+import 'package:tourist_guide_app/appConstants.dart';
 import 'package:tourist_guide_app/bloc/featuresBloc/bloc.dart';
 
 class ToursListView extends StatefulWidget {
@@ -239,7 +240,7 @@ class CategoryView extends StatelessWidget {
                             child: AspectRatio(
                               aspectRatio: 1.28,
                               child: Image.network(
-                                  "http://10.6.250.16:5000/api/agents/images/${tour.tourImage}"),
+                                  "$url/agents/images/${tour.tourImage}"),
                             ),
                           ),
                         ),

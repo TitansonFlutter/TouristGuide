@@ -1,12 +1,28 @@
 part of 'filterbloc_bloc.dart';
 
 @immutable
-abstract class FilterblocEvent {}
+abstract class FilterblocEvent extends Equatable {
+  @override
+  List<Object> get props => [];
+}
 
 //Filter events
 
 class FetchAllTours extends FilterblocEvent {}
 
-class FetchTourByName extends FilterblocEvent {}
+class FetchTourByName extends FilterblocEvent {
+  final String tourname;
+  FetchTourByName(this.tourname);
+}
 
-class Filter extends FilterblocEvent {}
+class FetchDescrition extends FilterblocEvent {
+  final String TourId;
+  FetchDescrition(this.TourId);
+}
+
+class Filter extends FilterblocEvent {
+  final double priceHigh;
+  final double priceLow;
+  final String tourName;
+  Filter(this.priceHigh, this.priceLow, this.tourName);
+}

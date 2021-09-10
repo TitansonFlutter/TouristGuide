@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourist_guide_app/Presentation/core/Agent/components/tour_add.dart';
+import 'package:tourist_guide_app/appConstants.dart';
 import 'package:tourist_guide_app/bloc/agentBloc/agentBloc/agent_bloc.dart';
 
 class ToursDisplay extends StatelessWidget {
@@ -37,14 +39,10 @@ class ToursDisplay extends StatelessWidget {
             return ListView.builder(
               itemCount: tours.length,
               itemBuilder: (BuildContext context, int index) {
-                // return ListTile(
-                //   title: Text("${agents.elementAt(index).username}"),
-                //   subtitle: Text("${agents.elementAt(index).email}"),
-                //   onTap: () {},
                 return _buildCard(
                     "${tours.elementAt(index).tourName}",
                     "${tours.elementAt(index).tourDescription}",
-                    "http://localhost:5000/api/agents/images/${tours.elementAt(index).tourImage}",
+                    "$url/agents/images/${tours.elementAt(index).tourImage}",
                     // "assets/images/main_top.png",
                     tours.elementAt(index).tourId,
                     context);
@@ -55,7 +53,9 @@ class ToursDisplay extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, TourAdd.routeName);
+        },
         backgroundColor: Color(0xFFF17532),
         child: Icon(Icons.add),
       ),
@@ -67,15 +67,7 @@ class ToursDisplay extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
       child: InkWell(
-        onTap: () {
-          print("Clicked");
-          // Navigator.of(context).push(
-          //     MaterialPageRoute(builder: (context) => CookieDetail(
-          //       assetPath: imgPath,
-          //       cookieprice:price,
-          //       cookiename: name
-          //     )));
-        },
+        onTap: () {},
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
@@ -130,10 +122,7 @@ class ToursDisplay extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
-                      onPressed: () {
-                        BlocProvider.of<AgentBloc>(context)
-                          ..add(DeleteTour(2, id));
-                      },
+                      onPressed: () {},
                       child: Text(
                         "Edit",
                         style: TextStyle(color: Colors.green),
@@ -141,8 +130,38 @@ class ToursDisplay extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        BlocProvider.of<AgentBloc>(context)
-                          ..add(DeleteTour(2, id));
+                        // set up the buttons
+                        Widget cancelButton = TextButton(
+                          child: Text("Cancel"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                        Widget continueButton = TextButton(
+                          child: Text("Continue"),
+                          onPressed: () {
+                            BlocProvider.of<AgentBloc>(context)
+                              ..add(DeleteTour(2, id));
+                            Navigator.pop(context);
+                          },
+                        );
+
+                        // set up the AlertDialog
+                        AlertDialog alert = AlertDialog(
+                          title: Text("Accept"),
+                          content: Text(
+                              "Are You sure you want to delete this Tour?"),
+                          actions: [
+                            cancelButton,
+                            continueButton,
+                          ],
+                        );
+
+                        // show the dialog
+                        showDialog(
+                            context: context,
+                            builder: (_) => alert,
+                            barrierDismissible: false);
                       },
                       child: Text(
                         "Delete",

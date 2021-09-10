@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourist_guide_app/Presentation/core/admin/components/agent_add.dart';
 
 import '../../../../bloc/adminBlocs/bloc.dart';
 
 class AgentsDisplay extends StatelessWidget {
-  // static const routName = '/';
+  // static const String routeName = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +31,15 @@ class AgentsDisplay extends StatelessWidget {
       ),
       body: BlocBuilder<AdminBloc, AdminState>(
         builder: (context, state) {
+          print("State: $state()");
           if (state is AgentOperationFailure) {
-            return Text("Could Not Load Agents");
+            return Center(child: Text("No Agents Are Available"));
           }
           if (state is AgentOperationSuccess) {
             final agents = state.agents;
             return ListView.builder(
               itemCount: agents.length,
               itemBuilder: (BuildContext context, int index) {
-                // return ListTile(
-                //   title: Text("${agents.elementAt(index).username}"),
-                //   subtitle: Text("${agents.elementAt(index).email}"),
-                //   onTap: () {},
                 return _buildCard(
                     "${agents.elementAt(index).username}",
                     "${agents.elementAt(index).email}",
@@ -55,7 +53,9 @@ class AgentsDisplay extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, AgentAdd.routeName);
+        },
         backgroundColor: Color(0xFFF17532),
         child: Icon(Icons.add),
       ),
@@ -68,13 +68,7 @@ class AgentsDisplay extends StatelessWidget {
       padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
       child: InkWell(
         onTap: () {
-          print("Clicked");
-          // Navigator.of(context).push(
-          //     MaterialPageRoute(builder: (context) => CookieDetail(
-          //       assetPath: imgPath,
-          //       cookieprice:price,
-          //       cookiename: name
-          //     )));
+          // Navigator.pushNamed(context, AgentAdd.routeName);
         },
         child: Container(
           decoration: BoxDecoration(
@@ -88,14 +82,6 @@ class AgentsDisplay extends StatelessWidget {
               color: Colors.white),
           child: Column(
             children: [
-              // Padding(
-              //     padding: EdgeInsets.all(5.0),
-              //     child:
-              //         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              //       isFavorite
-              //           ? Icon(Icons.favorite, color: Color(0xFFEF7532))
-              //           : Icon(Icons.favorite_border, color: Color(0xFFEF7532))
-              //     ])),
               Row(
                 children: [
                   Hero(
@@ -139,35 +125,44 @@ class AgentsDisplay extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        BlocProvider.of<AdminBloc>(context)
-                          ..add(DeleteAgent(id));
+                        // set up the buttons
+                        Widget cancelButton = TextButton(
+                          child: Text("Cancel"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                        Widget continueButton = TextButton(
+                          child: Text("Continue"),
+                          onPressed: () {
+                            BlocProvider.of<AdminBloc>(context)
+                              ..add(DeleteAgent(id));
+                            Navigator.pop(context);
+                          },
+                        );
+
+                        // set up the AlertDialog
+                        AlertDialog alert = AlertDialog(
+                          title: Text("Accept"),
+                          content: Text(
+                              "Are You sure you want to delete this agent?"),
+                          actions: [
+                            cancelButton,
+                            continueButton,
+                          ],
+                        );
+
+                        // show the dialog
+                        showDialog(
+                            context: context,
+                            builder: (_) => alert,
+                            barrierDismissible: false);
                       },
                       child: Text(
                         "Delete",
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    // if (!added) ...[
-                    //   Icon(Icons.shopping_basket,
-                    //       color: Color(0xFFD17E50), size: 12.0),
-                    //   Text('Add to cart',
-                    //       style: TextStyle(
-                    //           fontFamily: 'Varela',
-                    //           color: Color(0xFFD17E50),
-                    //           fontSize: 12.0))
-                    // ],
-                    // if (added) ...[
-                    //   Icon(Icons.remove_circle_outline,
-                    //       color: Color(0xFFD17E50), size: 12.0),
-                    //   Text('3',
-                    //       style: TextStyle(
-                    //           fontFamily: 'Varela',
-                    //           color: Color(0xFFD17E50),
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 12.0)),
-                    //   Icon(Icons.add_circle_outline,
-                    //       color: Color(0xFFD17E50), size: 12.0),
-                    // ]
                   ],
                 ),
               ),

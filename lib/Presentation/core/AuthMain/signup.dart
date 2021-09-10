@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourist_guide_app/AuthDb.dart';
+import 'package:tourist_guide_app/Presentation/Models/User.dart';
 
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/RoundedPasswordField.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/roundedBtn.dart';
@@ -10,24 +12,23 @@ import 'package:tourist_guide_app/Presentation/core/AuthMain/constants.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/loginPage.dart';
 import 'package:tourist_guide_app/bloc/auth_bloc.dart';
 
-// class SignUpPage extends StatefulWidget {
-//   SignUpPage({Key key, this.title}) : super(key: key);
-
-//   final String title;
-
-//   @override
-//   _SignUpPageState createState() => _SignUpPageState();
-// }
-
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   static final String routeName = "/signup";
+  SignUpPage({Key key, this.title}) : super(key: key);
 
+  final String title;
+
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final usernameTextController = TextEditingController();
 
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  Widget _backButton(context) {
+  Widget _backButton() {
     return InkWell(
       onTap: () {
         Navigator.pop(context);
@@ -48,7 +49,7 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget _loginAccountLabel(context) {
+  Widget _loginAccountLabel() {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -124,8 +125,11 @@ class SignUpPage extends StatelessWidget {
                       ),
                       BlocConsumer<AuthBloc, AuthState>(
                         listener: (ctx, authState) {
-                          print(authState);
                           if (authState is AuthSuccess) {
+                            Future logInUser(User user) async {
+                              await SaveUsersDb.instance.create(user);
+                            }
+
                             try {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -169,12 +173,12 @@ class SignUpPage extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: height * .14),
-                      _loginAccountLabel(context),
+                      _loginAccountLabel(),
                     ],
                   ),
                 ),
               ),
-              Positioned(top: 40, left: 0, child: _backButton(context)),
+              Positioned(top: 40, left: 0, child: _backButton()),
             ],
           ),
         ),

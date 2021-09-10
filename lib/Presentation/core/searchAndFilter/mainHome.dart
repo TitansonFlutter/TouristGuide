@@ -3,12 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:tourist_guide_app/Presentation/Models/Place.dart';
-import 'package:tourist_guide_app/Presentation/Models/hotel_list_data.dart';
+
+import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/calendar_popup_view.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/filters_screen.dart';
-import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/hotel_app_theme.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/hotel_list_view.dart';
 
@@ -78,8 +76,7 @@ class _FilterScreenState extends State<FilterScreen>
                                   (BuildContext context, int index) {
                                 return Column(
                                   children: <Widget>[
-                                    // getSearchBarUI(),
-                                    getTimeDateUI(),
+                                    // getTimeDateUI(),
                                   ],
                                 );
                               }, childCount: 1),
@@ -274,138 +271,10 @@ class _FilterScreenState extends State<FilterScreen>
               color: Colors.grey.withOpacity(0.8),
             ),
           ),
-
-          //Rooms Section
-
-          // Expanded(
-          //   child: Row(
-          //     children: <Widget>[
-          //       Material(
-          //         color: Colors.transparent,
-          //         child: InkWell(
-          //           focusColor: Colors.transparent,
-          //           highlightColor: Colors.transparent,
-          //           hoverColor: Colors.transparent,
-          //           splashColor: Colors.grey.withOpacity(0.2),
-          //           borderRadius: const BorderRadius.all(
-          //             Radius.circular(4.0),
-          //           ),
-          //           onTap: () {
-          //             FocusScope.of(context).requestFocus(FocusNode());
-          //           },
-          //           child: Padding(
-          //             padding: const EdgeInsets.only(
-          //                 left: 8, right: 8, top: 4, bottom: 4),
-          //             child: Column(
-          //               mainAxisAlignment: MainAxisAlignment.center,
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: <Widget>[
-          //                 Text(
-          //                   'Number of Rooms',
-          //                   style: TextStyle(
-          //                       fontWeight: FontWeight.w100,
-          //                       fontSize: 16,
-          //                       color: Colors.grey.withOpacity(0.8)),
-          //                 ),
-          //                 const SizedBox(
-          //                   height: 8,
-          //                 ),
-          //                 Text(
-          //                   '1 Room - 2 Adults',
-          //                   style: TextStyle(
-          //                     fontWeight: FontWeight.w100,
-          //                     fontSize: 16,
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );
   }
-
-  //FilterScreen area
-
-  // Widget getSearchBarUI() {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Expanded(
-  //           child: Padding(
-  //             padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
-  //             child: Container(
-  //               decoration: BoxDecoration(
-  //                 color: HotelAppTheme.buildLightTheme().backgroundColor,
-  //                 borderRadius: const BorderRadius.all(
-  //                   Radius.circular(38.0),
-  //                 ),
-  //                 boxShadow: <BoxShadow>[
-  //                   BoxShadow(
-  //                       color: Colors.grey.withOpacity(0.2),
-  //                       offset: const Offset(0, 2),
-  //                       blurRadius: 8.0),
-  //                 ],
-  //               ),
-  //               child: Padding(
-  //                 padding: const EdgeInsets.only(
-  //                     left: 16, right: 16, top: 4, bottom: 4),
-  //                 child: TextField(
-  //                   onChanged: (String txt) {},
-  //                   style: const TextStyle(
-  //                     fontSize: 18,
-  //                   ),
-  //                   cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
-  //                   decoration: InputDecoration(
-  //                     border: InputBorder.none,
-  //                     hintText: 'London...',
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Container(
-  //           decoration: BoxDecoration(
-  //             color: HotelAppTheme.buildLightTheme().primaryColor,
-  //             borderRadius: const BorderRadius.all(
-  //               Radius.circular(38.0),
-  //             ),
-  //             boxShadow: <BoxShadow>[
-  //               BoxShadow(
-  //                   color: Colors.grey.withOpacity(0.4),
-  //                   offset: const Offset(0, 2),
-  //                   blurRadius: 8.0),
-  //             ],
-  //           ),
-  //           child: Material(
-  //             color: Colors.transparent,
-  //             child: InkWell(
-  //               borderRadius: const BorderRadius.all(
-  //                 Radius.circular(32.0),
-  //               ),
-  //               onTap: () {
-  //                 FocusScope.of(context).requestFocus(FocusNode());
-  //               },
-  //               child: Padding(
-  //                 padding: const EdgeInsets.all(16.0),
-  //                 child: Icon(FontAwesomeIcons.search,
-  //                     size: 20,
-  //                     color: HotelAppTheme.buildLightTheme().backgroundColor),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget getFilterBarUI() {
     return Stack(
@@ -438,7 +307,7 @@ class _FilterScreenState extends State<FilterScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      tourList.length.toString() + 'Tours found',
+                      tourList.length.toString() + ' Tours found',
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontSize: 16,

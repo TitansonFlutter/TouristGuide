@@ -4,7 +4,6 @@ import 'package:tourist_guide_app/bloc/agentBloc/agentBloc/agent_bloc.dart';
 import 'package:tourist_guide_app/dataProvider/agentDataProviders/agentDataProviders/agent_data_provider.dart';
 import 'package:tourist_guide_app/repository/agentRepository/agentRepository/agent_repository.dart';
 
-
 import 'components/tours_display.dart';
 
 class AgentHome extends StatelessWidget {

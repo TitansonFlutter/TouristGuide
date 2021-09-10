@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -22,7 +23,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         final tours = await historyRepository.fetchAllUpcomingHistory(event.id);
         yield UpcomingState(tours);
       } catch (e) {
-        yield HistoryFailure("Error");
+        yield HistoryFailure(e.toString());
       }
     }
     if (event is PastEvent) {
@@ -31,7 +32,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
         yield PastState(tours);
       } catch (e) {
-        yield HistoryFailure("Error");
+        yield HistoryFailure(e.toString());
       }
     }
   }

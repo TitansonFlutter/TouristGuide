@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tourist_guide_app/Presentation/Models/Place.dart';
+import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 import 'package:tourist_guide_app/Presentation/core/home/components/liked_button.dart';
 import 'package:tourist_guide_app/Presentation/util.dart';
 
 class PlaceCard extends StatelessWidget {
   const PlaceCard({Key key, @required this.place}) : super(key: key);
 
-  final Place place;
+  final Tour place;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class PlaceCard extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        image:
-            DecorationImage(image: AssetImage(place.image), fit: BoxFit.cover),
+        image: DecorationImage(
+            image: NetworkImage(place.tourImage), fit: BoxFit.cover),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -33,7 +33,7 @@ class PlaceCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      place.name,
+                      place.tourName,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -47,7 +47,7 @@ class PlaceCard extends StatelessWidget {
                   allowHalfRating: false,
                   onRated: (v) {},
                   starCount: 5,
-                  rating: place.rating,
+                  rating: 5,
                   size: 20,
                   isReadOnly: true,
                   color: Color(0XFF686868),

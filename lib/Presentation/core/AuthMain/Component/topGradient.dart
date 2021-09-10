@@ -4,5 +4,5 @@ LinearGradient topGradient() {
   return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [Colors.blue, Color(0xffe46b10)]);
+      colors: [Colors.white, Colors.amber[700]]);
 }
