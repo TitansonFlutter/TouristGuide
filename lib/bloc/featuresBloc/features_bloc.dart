@@ -30,6 +30,8 @@ class FeaturesBloc extends Bloc<FeaturesEvent, FeaturesState> {
     if (event is LoadReviews) {
       yield ToursLoading();
       try {
+        print(event.tId);
+        print(event.uId);
         final book = await featuresRepository.bookStatus(event.uId, event.tId);
         yield BookStatusSuccess(book);
         final reviews = await featuresRepository.fetchAllReviews(event.tId);

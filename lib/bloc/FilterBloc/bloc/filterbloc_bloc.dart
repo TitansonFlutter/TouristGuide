@@ -24,39 +24,42 @@ class FilterblocBloc extends Bloc<FilterblocEvent, FilterblocState> {
       // loading code
       yield Loading();
       final tours = await tourRepository.fetchAllTours();
-
-      yield AllToursFetched(tours); //tours are to be replaced with the place
+      try {
+        yield AllToursFetched(tours); //tours are to be replaced with the place
+      } catch (e) {
+        yield Error(e.toString());
+      }
     }
 
     if (event is FetchTourByName) {
-      // loading code
       yield Loading();
-
-      if (event.Tourname.isEmpty || event.Tourname == null) {
-        final tours = await tourRepository.fetchAllTours();
-
-        yield AllToursFetched(tours);
+      if (event.tourname.isEmpty || event.tourname == null) {
+        try {
+          final tours = await tourRepository.fetchAllTours();
+          yield AllToursFetched(tours);
+        } catch (e) {
+          yield Error(e.toString());
+        }
       } else {
         try {
           final List<Tour> tour =
-              await tourRepository.fetchTourByName(event.Tourname);
+              await tourRepository.fetchTourByName(event.tourname);
           yield TourByNameFetched(tour);
         } catch (e) {
           yield Error(e.toString());
         }
       }
     }
-
     if (event is Filter) {
-      // loading code
+      List<dynamic> filters;
       yield Loading();
-      List<String> filters = [
-        event.priceHigh.toString(),
-        event.priceLow.toString(),
-        event.tourName.toString()
-      ];
-      final tours = await tourRepository.filter(filters);
-      yield FilteredTours(tours);
+      try {
+        filters = [event.priceHigh, event.priceLow, event.tourName];
+        final tours = await tourRepository.filter(filters);
+        yield FilteredTours(tours);
+      } catch (e) {
+        yield Error(e.toString());
+      }
     }
   }
 }

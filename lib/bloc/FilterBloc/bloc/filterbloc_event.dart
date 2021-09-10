@@ -11,8 +11,8 @@ abstract class FilterblocEvent extends Equatable {
 class FetchAllTours extends FilterblocEvent {}
 
 class FetchTourByName extends FilterblocEvent {
-  final String Tourname;
-  FetchTourByName(this.Tourname);
+  final String tourname;
+  FetchTourByName(this.tourname);
 }
 
 class FetchDescrition extends FilterblocEvent {

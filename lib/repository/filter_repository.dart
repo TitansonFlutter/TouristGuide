@@ -10,7 +10,7 @@ class FilterRepository {
     return this._dataProvider.fetchAllTours();
   }
 
-  Future<List<Tour>> filter(List<String> filters) async {
+  Future<List<Tour>> filter(List<dynamic> filters) async {
     return this._dataProvider.filter(filters);
   }
 

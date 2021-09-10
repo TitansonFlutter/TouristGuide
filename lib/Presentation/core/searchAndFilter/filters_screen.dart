@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourist_guide_app/Presentation/Models/popular_filter_list.dart';
 import 'package:tourist_guide_app/bloc/FilterBloc/bloc/filterbloc_bloc.dart';
 import 'range_slider_view.dart';
-import 'slider_view.dart';
 import 'hotel_app_theme.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -23,6 +22,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   double highPrice;
   double lowPrice;
   String tourName;
+  String dropdownvalue = 'Lalibela';
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +111,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   //dropdown for available tours
 
   Widget DropdownTours() {
-    String dropdownvalue = 'Tana';
-    var items = ['Lalibela', 'Axum', 'Omo', 'Hamar', 'GondarCastle', 'Tana'];
+    var items = ['Lalibela', 'Axum', 'Harer', 'Afar', 'GondarCastle', 'Tana'];
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

@@ -44,6 +44,7 @@ class AgentAdd extends StatelessWidget {
                     _formKey.currentState.save();
                     final AdminEvent event = CreateAgent(
                       User(
+                        0,
                         emailController.text,
                         userNameController.text,
                         1,

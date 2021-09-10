@@ -7,16 +7,22 @@ import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
 
 class BottomNavBar extends StatefulWidget {
+  // final int index;
   // final List<String> _options = ["Home", "Search, Agents", "History"];
+  BottomNavBar();
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  @override
+  int _page = 0;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
+      key: _bottomNavigationKey,
+
       height: 60,
       color: Color(0XFF6A62B7),
       buttonBackgroundColor: Color(0XFF6A62B7),
@@ -29,17 +35,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
         Icon(Icons.favorite, color: Colors.white),
         Icon(Icons.history, color: Colors.white),
       ],
-      onTap: (index) {
-        if (index == 0) {
+      onTap: (i) {
+        setState(() {
+          _page = i;
+        });
+        if (i == 0) {
           Navigator.of(context).pushNamed(HomeScreen.routeName);
         }
-        if (index == 1) {
-          Navigator.of(context).pushNamed(AgentHome.routeName);
+        if (i == 1) {
+          Navigator.of(context).pushNamed(FilterScreenMain.routeName);
         }
-        if (index == 2) {
+        if (i == 2) {
           Navigator.of(context).pushNamed(AdminHome.routeName);
         }
-        if (index == 3) {
+        if (i == 3) {
           Navigator.of(context).pushNamed(HistoryPage.routeName);
         }
       },

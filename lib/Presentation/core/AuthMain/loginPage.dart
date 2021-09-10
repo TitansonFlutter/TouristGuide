@@ -6,29 +6,28 @@ import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/textField
 import 'package:tourist_guide_app/Presentation/core/AuthMain/Component/title.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/constants.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
-import 'package:tourist_guide_app/Presentation/core/admin/home_screen.dart';
-import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/bloc/auth_bloc.dart';
 
 import 'Widget/bezierContainer.dart';
 
-// class LoginPage extends StatefulWidget {
-//   LoginPage({Key key, this.title}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  static final String routeName = "/login";
 
-//   final String title;
-//   final routeName = "/Login";
+  LoginPage({Key key, this.title}) : super(key: key);
 
-//   @override
-//   _LoginPageState createState() => _LoginPageState();
-// }
+  final String title;
 
-class LoginPage extends StatelessWidget {
-  static final String routeName = '/login';
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool hiddenPassword = true;
 
-  Widget _backButton(context) {
+  Widget _backButton() {
     return InkWell(
       onTap: () {
         Navigator.pop(context);
@@ -49,43 +48,11 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  // Widget _divider() {
-  //   return Container(
-  //     margin: EdgeInsets.symmetric(vertical: 10),
-  //     child: Row(
-  //       children: <Widget>[
-  //         SizedBox(
-  //           width: 20,
-  //         ),
-  //         Expanded(
-  //           child: Padding(
-  //             padding: EdgeInsets.symmetric(horizontal: 10),
-  //             child: Divider(
-  //               thickness: 1,
-  //             ),
-  //           ),
-  //         ),
-  //         Text('or'),
-  //         Expanded(
-  //           child: Padding(
-  //             padding: EdgeInsets.symmetric(horizontal: 10),
-  //             child: Divider(
-  //               thickness: 1,
-  //             ),
-  //           ),
-  //         ),
-  //         SizedBox(
-  //           width: 20,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Widget _createAccountLabel(context) {
+  Widget _createAccountLabel() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(SignUpPage.routeName);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20),
@@ -149,16 +116,7 @@ class LoginPage extends StatelessWidget {
                       listener: (ctx, authState) {
                         if (authState is AuthSuccess) {
                           print(authState.user);
-                          if (authState.user.role == 0) {
-                            Navigator.of(context)
-                                .pushNamed(HomeScreen.routeName);
-                          } else if (authState.user.role == 1) {
-                            Navigator.of(context)
-                                .pushNamed(AdminHome.routeName);
-                          } else if (authState.user.role == 2) {
-                            Navigator.of(context)
-                                .pushNamed(AdminHome.routeName);
-                          }
+                          Navigator.pushNamed(context, '/home');
                         }
                       },
                       builder: (ctx, authState) {
@@ -195,20 +153,13 @@ class LoginPage extends StatelessWidget {
                         return Container(child: buttonChild);
                       },
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text('Forgot Password ?',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500)),
-                    ),
                     SizedBox(height: height * .055),
-                    _createAccountLabel(context),
+                    _createAccountLabel(),
                   ],
                 ),
               ),
             ),
-            Positioned(top: 40, left: 0, child: _backButton(context)),
+            Positioned(top: 40, left: 0, child: _backButton()),
           ],
         ),
       ),

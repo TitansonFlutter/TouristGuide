@@ -5,8 +5,10 @@ import 'package:tourist_guide_app/Presentation/core/AuthMain/signup.dart';
 import 'package:tourist_guide_app/Presentation/core/AuthMain/welcomePage.dart';
 
 import 'package:tourist_guide_app/Presentation/core/History/history.dart';
+import 'package:tourist_guide_app/Presentation/core/Profile/profile.dart';
 import 'package:tourist_guide_app/Presentation/core/home/home.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/home.dart';
+import 'package:tourist_guide_app/Presentation/core/tour_info_screen.dart';
 
 import '../Presentation/Models/tour_list.dart';
 import '../Presentation/core/admin/home_screen.dart';
@@ -15,6 +17,9 @@ class Routes {
   static Route generateRoute(RouteSettings settings) {
     if (settings.name == '/') {
       return MaterialPageRoute(builder: (context) => WelcomePage());
+    }
+    if (settings.name == Profile.routeName) {
+      return MaterialPageRoute(builder: (context) => Profile());
     }
 // Auth
     if (settings.name == LoginPage.routeName) {
@@ -27,8 +32,8 @@ class Routes {
     if (settings.name == HomeScreen.routeName) {
       return MaterialPageRoute(builder: (context) => HomeScreen());
     }
-    if (settings.name == AgentHome.routeName) {
-      return MaterialPageRoute(builder: (context) => AgentHome());
+    if (settings.name == FilterScreenMain.routeName) {
+      return MaterialPageRoute(builder: (context) => FilterScreenMain());
     }
     if (settings.name == HistoryPage.routeName) {
       return MaterialPageRoute(builder: (context) => HistoryPage());
@@ -36,6 +41,16 @@ class Routes {
     // Admin
     if (settings.name == AdminHome.routeName) {
       return MaterialPageRoute(builder: (context) => AdminHome());
+    }
+
+    // Tour
+    if (settings.name == TourInfoScreen.routeName) {
+      Tour tour = settings.arguments as Tour;
+      return MaterialPageRoute(builder: (context) => TourInfoScreen(tour));
+    }
+
+    if (settings.name == AgentHome.routeName) {
+      return MaterialPageRoute(builder: (context) => AgentHome());
     }
   }
 }

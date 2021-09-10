@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tourist_guide_app/appConstants.dart';
 import 'package:tourist_guide_app/outException.dart';
 import 'package:tourist_guide_app/Presentation/Models/User.dart';
 import 'package:tourist_guide_app/Presentation/Models/review_model.dart';
@@ -7,11 +8,11 @@ import 'package:tourist_guide_app/Presentation/Models/review_model.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 
 class FeaturesDataProvider {
-  static final String _url = "http://10.6.250.16:5000/api";
+  // static final String _url = "http://10.6.250.16:5000/api";
 
 // Get all Tours
   Future<List<Tour>> fetchAllTours() async {
-    final response = await http.get(Uri.parse("$_url/agents/2/tours"));
+    final response = await http.get(Uri.parse("$url/features/recommended"));
     if (response.statusCode == 200) {
       final tours = jsonDecode(response.body) as List;
       return tours.map((tour) => Tour.fromJson(tour)).toList();
@@ -24,7 +25,7 @@ class FeaturesDataProvider {
 // // Add a Reviews
   Future<Review> addReview(Review review) async {
     final http.Response response =
-        await http.post(Uri.parse("$_url/features/reviews"),
+        await http.post(Uri.parse("$url/features/reviews"),
             headers: <String, String>{"Content-Type": "application/json"},
             body: jsonEncode({
               "UserId": review.userId,
@@ -42,7 +43,7 @@ class FeaturesDataProvider {
 
   // GEt All Reviews
   Future<List<Review>> fetchAllReviews(int tId) async {
-    final response = await http.get(Uri.parse("$_url/features/reviews/$tId"));
+    final response = await http.get(Uri.parse("$url/features/reviews/$tId"));
     if (response.statusCode == 200) {
       final tours = jsonDecode(response.body) as List;
       print(tours);
@@ -56,22 +57,24 @@ class FeaturesDataProvider {
 
 // Get Tour by Id
   Future<Tour> getTour(int id, Tour tour) async {
-    final response = await http.get(Uri.parse("$_url/tours/$id"));
+    final response = await http.get(Uri.parse("$url/tours/$id"));
 
     if (response.statusCode == 200) {
       return Tour.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Could not get the tour");
+      final err = jsonDecode(response.body);
+      throw AppExc(err["message"]);
     }
   }
 
   Future<User> bookStatus(int uId, int tId) async {
-    final response = await http.get(Uri.parse("$_url/users/$uId/book/$tId"));
+    final response = await http.get(Uri.parse("$url/users/$uId/book/$tId"));
 
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Could not get Book Status");
+      final err = jsonDecode(response.body);
+      throw AppExc(err["message"]);
     }
   }
 }

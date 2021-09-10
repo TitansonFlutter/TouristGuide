@@ -8,7 +8,7 @@ import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 class FilterDataProvider {
 // Get all Tours
   Future<List<Tour>> fetchAllTours() async {
-    final response = await http.get(Uri.parse("$url/agents/2/tours"));
+    final response = await http.get(Uri.parse("$url/features/recommended"));
     if (response.statusCode == 200) {
       final tours = jsonDecode(response.body) as List;
 
@@ -48,13 +48,15 @@ class FilterDataProvider {
 
 //Filter
 
-  Future<List<Tour>> filter(List<String> filters) async {
+  Future<List<Tour>> filter(List<dynamic> filters) async {
+    print(filters);
+
     final http.Response response = await http.post(Uri.parse("$url/filters"),
         headers: <String, String>{"Content-Type": "application/json"},
         body: jsonEncode({
-          "PriceHigh": filters[0],
-          "PriceLow": filters[1],
-          "TourName": filters[2],
+          "priceHigh": filters[0],
+          "priceLow": filters[1],
+          "tourName": filters[2],
           // "Speciality": filter.special
         }));
 
@@ -63,7 +65,8 @@ class FilterDataProvider {
 
       return tours.map((tour) => Tour.fromJson(tour)).toList();
     } else {
-      throw Exception("Could not fetch tours");
+      final err = jsonDecode(response.body);
+      throw AppExc(err["message"]);
     }
   }
 

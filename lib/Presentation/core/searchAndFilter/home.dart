@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
+import 'package:tourist_guide_app/Presentation/components/bottom_nav_bar.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/filters_screen.dart';
+import 'package:tourist_guide_app/Presentation/core/searchAndFilter/hotel_app_theme.dart';
 import 'package:tourist_guide_app/Presentation/core/searchAndFilter/mainHome.dart';
 
 import 'package:tourist_guide_app/bloc/FilterBloc/bloc/filterbloc_bloc.dart';
@@ -16,11 +19,16 @@ import 'package:tourist_guide_app/bloc/FilterBloc/bloc/filterbloc_bloc.dart';
 // }
 
 class FilterScreenMain extends StatefulWidget {
+  static final String routeName = "/filter";
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<FilterScreenMain> {
+  //  final CurvedNavigationBar navBarState =
+  //                     _bottomNavigationKey.currentState;
+  //                 navBarState.setPage(1);
+
   static const historyLength = 5;
   final formKey = GlobalKey<FormState>();
 
@@ -93,6 +101,7 @@ class _HomePageState extends State<FilterScreenMain> {
 
     return Scaffold(
       body: FilterSearchBar(),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 
@@ -104,33 +113,35 @@ class _HomePageState extends State<FilterScreenMain> {
       body: FloatingSearchBarScrollNotifier(
         child: BlocConsumer<FilterblocBloc, FilterblocState>(
           listener: (ctx, state) {
-            print("state Consumer :" + state.toString());
+            print("State Consumer :" + state.toString());
           },
           builder: (context, state) {
             if (state is FilteredTours) {
               List<Tour> tours = state.tours;
+
+              print("Value: $tours[0]");
+
               return FilterScreen(tours);
             }
             if (state is TourByNameFetched) {
-              print(" STATE :" + state.toString());
+              // print(" STATE :" + state.toString());
               List<Tour> tours = state.tours;
               return FilterScreen(tours);
             }
             if (state is AllToursFetched) {
               return FilterScreen(state.tours);
-
-              // searchTerm: selectedTerm,
             }
             if (state is Error) {
-              // try {
-              //   ScaffoldMessenger.of(context)
-              //       .showSnackBar(SnackBar(content: Text(state.errorMsg)));
-              // } catch (e) {}
-              return Center(child: Text(state.errorMsg));
+              // return getFilterBarUI();
+              return Stack(
+                children: [
+                  getFilterBarUI(),
+                  Center(child: Text(state.errorMsg))
+                ],
+              );
             }
 
             if (state is Loading) {
-              print("Loading");
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [CircularProgressIndicator()],
@@ -246,6 +257,102 @@ class _HomePageState extends State<FilterScreenMain> {
           ),
         );
       },
+    );
+  }
+
+  Widget getFilterBarUI() {
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 24,
+            decoration: BoxDecoration(
+              color: HotelAppTheme.buildLightTheme().backgroundColor,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    offset: const Offset(0, -2),
+                    blurRadius: 8.0),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          color: HotelAppTheme.buildLightTheme().backgroundColor,
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '0 Tours found',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w100,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    focusColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.grey.withOpacity(0.2),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      Navigator.push<dynamic>(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) => FiltersScreen(),
+                            fullscreenDialog: true),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'Filter',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.sort,
+                                color: HotelAppTheme.buildLightTheme()
+                                    .primaryColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Divider(
+            height: 1,
+          ),
+        )
+      ],
     );
   }
 }
