@@ -8,8 +8,6 @@ import 'package:tourist_guide_app/Presentation/Models/review_model.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 
 class FeaturesDataProvider {
-  // static final String _url = "http://10.6.250.16:5000/api";
-
 // Get all Tours
   Future<List<Tour>> fetchAllTours() async {
     final response = await http.get(Uri.parse("$url/features/recommended"));
@@ -29,14 +27,16 @@ class FeaturesDataProvider {
             headers: <String, String>{"Content-Type": "application/json"},
             body: jsonEncode({
               "UserId": review.userId,
-              "Name": review.tourId,
+              "TourId": review.tourId,
               "Comment": review.comment,
               "Rate": review.rate,
               "Date": review.date
             }));
     if (response.statusCode == 201) {
+      print(response.body);
       return Review.fromJson(jsonDecode(response.body));
     } else {
+      print("Error");
       throw Exception("Failed to add your Review");
     }
   }
@@ -49,7 +49,7 @@ class FeaturesDataProvider {
       print(tours);
       return tours.map((tour) => Review.fromJson(tour)).toList();
     } else {
-      // print("Error");
+      print("Error");
       final err = jsonDecode(response.body);
       throw AppExc(err["message"]);
     }
@@ -74,6 +74,23 @@ class FeaturesDataProvider {
       return User.fromJson(jsonDecode(response.body));
     } else {
       final err = jsonDecode(response.body);
+      throw AppExc(err["message"]);
+    }
+  }
+
+  // // Book a Tour
+  Future<User> book(int uId, int tourId) async {
+    final http.Response response =
+        await http.post(Uri.parse("$url/users/$uId/book"),
+            headers: <String, String>{"Content-Type": "application/json"},
+            body: jsonEncode({
+              "TourId": tourId,
+            }));
+    if (response.statusCode == 200) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      final err = jsonDecode(response.body);
+      print(err);
       throw AppExc(err["message"]);
     }
   }

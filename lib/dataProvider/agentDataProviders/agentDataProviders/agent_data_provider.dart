@@ -23,7 +23,7 @@ class AgentDataProvider {
               "Content-Type": "application/json",
             },
             body: jsonEncode({
-              "TourNme": tour.tourName,
+              "TourName": tour.tourName,
               "TourImage": tour.tourImage,
               "Country": tour.country,
               "Region": tour.region,
@@ -47,6 +47,7 @@ class AgentDataProvider {
 
 // Update Tour
   Future<Tour> updateTour(int aId, int tId, Tour tour) async {
+    print("IN UPDATE");
     final http.Response response =
         await http.put(Uri.parse("$url/agents/$aId/tours/$tId"),
             headers: <String, String>{
@@ -105,6 +106,52 @@ class AgentDataProvider {
       return response;
     } else {
       throw Exception("Could not add the tour");
+    }
+  }
+
+  Future<dynamic> createWithImage(int aId, Tour tour, String filepath) async {
+    print("Api");
+    try {
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse("$url/agents/$aId/tours"),
+      );
+      request.fields['data'] = jsonEncode({
+        "TourNme": tour.tourName,
+        "TourImage": tour.tourImage,
+        "Country": tour.country,
+        "Region": tour.region,
+        "City": tour.city,
+        "WhatToInclude": tour.whatToInclude,
+        "WhatToExclude": tour.whatToExclude,
+        "TourDescription": tour.tourDescription,
+        "WhatToBring": tour.whatToBring,
+        "Itinerary": tour.itinerary,
+        "Duration": tour.duration,
+        "StartingDate": tour.startingDate,
+        "Price": tour.price,
+        "Updated": tour.updated,
+      });
+      request.files.add(
+        await http.MultipartFile.fromPath("pic", filepath),
+      );
+      request.headers.addAll({
+        "Content-type": "multipart/form-data",
+        // "Authorization": "Bearer $token"
+      });
+
+      final streamResponse = await request.send();
+      final response = await (http.Response.fromStream(streamResponse));
+      print(response);
+
+      if (response.statusCode == 200) {
+        print("Start");
+        // return Tour.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception("Could not add the tour");
+      }
+    } catch (e) {
+      print("Main Error : $e");
     }
   }
 }

@@ -58,13 +58,15 @@ class Routes {
       return MaterialPageRoute(builder: (context) => AgentHome());
     }
     if (settings.name == TourAdd.routeName) {
-      return MaterialPageRoute(builder: (context) => TourAdd());
+      TourArgument args = settings.arguments as TourArgument;
+
+      return MaterialPageRoute(builder: (context) => TourAdd(args));
     }
   }
 }
 
 class TourArgument {
-  final Tour course;
+  final Tour tour;
   final bool edit;
-  TourArgument({this.course, @required this.edit});
+  TourArgument({this.tour, @required this.edit});
 }

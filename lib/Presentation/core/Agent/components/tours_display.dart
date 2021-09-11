@@ -1,40 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
 import 'package:tourist_guide_app/Presentation/core/Agent/components/tour_add.dart';
+import 'package:tourist_guide_app/Presentation/core/drawer.dart';
+import 'package:tourist_guide_app/Routes/routes.dart';
+import 'package:tourist_guide_app/SharedSimplePreference.dart';
 import 'package:tourist_guide_app/appConstants.dart';
 import 'package:tourist_guide_app/bloc/agentBloc/agentBloc/agent_bloc.dart';
 
 class ToursDisplay extends StatelessWidget {
   // static const routName = '/';
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: Drawer(
+        child: MainDrawer(),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Color(0xFF545D68)),
-          onPressed: () {},
-        ),
+            icon: ClipOval(child: Image.asset('assets/images/menu.png')),
+            onPressed: () {
+              scaffoldKey.currentState.openDrawer();
+            }),
         title: Text(
           'Welcome Agent',
           style: TextStyle(
               fontFamily: 'Varela', fontSize: 20.0, color: Color(0xFF545D68)),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.notifications_none, color: Color(0xFF545D68)),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: BlocBuilder<AgentBloc, AgentState>(
         builder: (context, state) {
+          print("STATES:   " + state.toString());
+
           if (state is TourOperationFailure) {
             return Text("Could Not Load Agents");
           }
           if (state is TourOperationSuccess) {
+            print("TOURS:   " + state.tours.length.toString());
             final tours = state.tours;
             return ListView.builder(
               itemCount: tours.length,
@@ -45,16 +53,18 @@ class ToursDisplay extends StatelessWidget {
                     "$url/agents/images/${tours.elementAt(index).tourImage}",
                     // "assets/images/main_top.png",
                     tours.elementAt(index).tourId,
+                    tours.elementAt(index),
                     context);
               },
             );
           }
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, TourAdd.routeName);
+          Navigator.of(context).pushNamed(TourAdd.routeName,
+              arguments: TourArgument(edit: false));
         },
         backgroundColor: Color(0xFFF17532),
         child: Icon(Icons.add),
@@ -63,7 +73,7 @@ class ToursDisplay extends StatelessWidget {
   }
 
   Widget _buildCard(
-      String name, String email, String imgPath, int id, context) {
+      String name, String email, String imgPath, int id, Tour tour, context) {
     return Padding(
       padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
       child: InkWell(
@@ -122,7 +132,12 @@ class ToursDisplay extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          TourAdd.routeName,
+                          arguments: TourArgument(tour: tour, edit: true),
+                        );
+                      },
                       child: Text(
                         "Edit",
                         style: TextStyle(color: Colors.green),
@@ -141,7 +156,8 @@ class ToursDisplay extends StatelessWidget {
                           child: Text("Continue"),
                           onPressed: () {
                             BlocProvider.of<AgentBloc>(context)
-                              ..add(DeleteTour(2, id));
+                              ..add(DeleteTour(
+                                  UserSimplePreferences.getUser().userId, id));
                             Navigator.pop(context);
                           },
                         );

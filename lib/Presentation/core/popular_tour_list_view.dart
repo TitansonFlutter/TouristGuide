@@ -40,6 +40,7 @@ class _ToursListViewState extends State<ToursListView>
           }
           if (state is FeaturesOperationSuccess) {
             final tours = state.tours.length;
+            print("fdsfdasf" + tours.toString());
 
             return GridView(
               padding: const EdgeInsets.all(8),

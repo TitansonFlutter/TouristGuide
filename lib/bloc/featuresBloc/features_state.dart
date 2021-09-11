@@ -27,10 +27,28 @@ class ReviewOperationSuccess extends FeaturesState {
   List<Object> get props => [reviews];
 }
 
+class AddReviewSuccess extends FeaturesState {
+  final Review review;
+
+  AddReviewSuccess(this.review);
+
+  @override
+  List<Object> get props => [review];
+}
+
 class BookStatusSuccess extends FeaturesState {
   final User user;
 
   BookStatusSuccess(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class BookSuccess extends FeaturesState {
+  final User user;
+
+  BookSuccess(this.user);
 
   @override
   List<Object> get props => [user];

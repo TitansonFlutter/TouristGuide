@@ -37,8 +37,6 @@ class _TourHomeScreenState extends State<TourHomeScreen> {
                       height: MediaQuery.of(context).size.height,
                       child: Column(
                         children: <Widget>[
-                          // getSearchBarUI(),
-                          // getCategoryUI(),
                           Flexible(
                             child: getPopularToursUI(),
                           ),

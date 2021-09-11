@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tourist_guide_app/Presentation/Models/review_model.dart';
 import 'package:tourist_guide_app/Presentation/Models/tour_list.dart';
+import 'package:tourist_guide_app/SharedSimplePreference.dart';
 import 'package:tourist_guide_app/appConstants.dart';
 import 'package:tourist_guide_app/bloc/featuresBloc/bloc.dart';
 import 'package:tourist_guide_app/dataProvider/featureDataProvider/features_data_provider.dart';
@@ -22,6 +24,9 @@ class _TourInfoScreenState extends State<TourInfoScreen>
   final Tour tour;
   bool reviewed = false;
   bool booked = false;
+
+  double _rate = 1.0;
+  int user = 4;
 
   TextEditingController _comment = TextEditingController();
 
@@ -67,7 +72,8 @@ class _TourInfoScreenState extends State<TourInfoScreen>
       value: this.featuresRepository,
       child: BlocProvider(
         create: (context) => FeaturesBloc(this.featuresRepository)
-          ..add(LoadReviews(tour.tourId, 2)),
+          ..add(
+              LoadReviews(tour.tourId, UserSimplePreferences.getUser().userId)),
         child: Container(
           color: TourAppTheme.nearlyWhite,
           child: Scaffold(
@@ -105,11 +111,6 @@ class _TourInfoScreenState extends State<TourInfoScreen>
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       child: SingleChildScrollView(
                         child: IntrinsicHeight(
-                          // constraints: BoxConstraints(
-                          //     minHeight: infoHeight,
-                          //     maxHeight: tempHeight > infoHeight
-                          //         ? tempHeight
-                          //         : infoHeight),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,8 +359,11 @@ class _TourInfoScreenState extends State<TourInfoScreen>
                                   booked = true;
                                   return Container();
                                 }
+                                if (state is BookSuccess) {
+                                  booked = true;
+                                  return Container();
+                                }
                                 if (state is ReviewOperationSuccess) {
-                                  int user = 2;
                                   final reviews = state.reviews;
                                   for (var i = 0; i < reviews.length; i++) {
                                     if (reviews.elementAt(i).userId == user) {
@@ -410,9 +414,34 @@ class _TourInfoScreenState extends State<TourInfoScreen>
                                         child: Column(
                                           children: [
                                             aboutTextField(),
+                                            Text("Rating"),
+                                            rating(),
                                             ElevatedButton(
                                               child: Text('Review'),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                if (_rate != null &&
+                                                    (_comment
+                                                        .text.isNotEmpty)) {
+                                                  final FeaturesEvent event =
+                                                      AddReview(Review(
+                                                          0,
+                                                          _comment.text,
+                                                          _rate,
+                                                          UserSimplePreferences
+                                                                  .getUser()
+                                                              .userId,
+                                                          tour.tourId,
+                                                          "${DateTime.now()}",
+                                                          "Name"));
+
+                                                  BlocProvider.of<FeaturesBloc>(
+                                                          context)
+                                                      .add(event);
+                                                  setState(() {});
+                                                }
+                                                Text(
+                                                    "Comment and Rating must not be empty!!!");
+                                              },
                                             )
                                           ],
                                         ),
@@ -451,7 +480,52 @@ class _TourInfoScreenState extends State<TourInfoScreen>
                                                 icon: Icon(Icons.bookmark),
                                                 label: Text('Book'),
                                                 onPressed: () {
-                                                  if (reviewed) {}
+                                                  final FeaturesEvent event =
+                                                      Book(
+                                                          UserSimplePreferences
+                                                                  .getUser()
+                                                              .userId,
+                                                          tour.tourId);
+
+                                                  Widget cancelButton =
+                                                      TextButton(
+                                                    child: Text("Cancel"),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  );
+                                                  Widget continueButton =
+                                                      TextButton(
+                                                    child: Text("Continue"),
+                                                    onPressed: () {
+                                                      BlocProvider.of<
+                                                                  FeaturesBloc>(
+                                                              context)
+                                                          .add(event);
+                                                      Navigator.pop(context);
+
+                                                      setState(() {
+                                                        booked = true;
+                                                      });
+                                                    },
+                                                  );
+                                                  // set up the AlertDialog
+                                                  AlertDialog alert =
+                                                      AlertDialog(
+                                                    title: Text("Accept"),
+                                                    content: Text(
+                                                        "Are You sure you want to book this tour?"),
+                                                    actions: [
+                                                      cancelButton,
+                                                      continueButton,
+                                                    ],
+                                                  );
+                                                  // show the dialog
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (_) => alert,
+                                                      barrierDismissible:
+                                                          false);
                                                 },
                                               )
                                             : Container(),
@@ -524,6 +598,86 @@ class _TourInfoScreenState extends State<TourInfoScreen>
           ),
         ),
       ),
+    );
+  }
+
+  Widget rateArea() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        ListView(
+          children: [
+            ListTile(
+              title: Text("1"),
+              leading: Radio(
+                  value: 1.0,
+                  groupValue: _rate,
+                  onChanged: (value) {
+                    _rate = value;
+                  }),
+            ),
+            ListTile(
+              title: Text("2"),
+              leading: Radio(
+                  value: 2.0,
+                  groupValue: _rate,
+                  onChanged: (value) {
+                    _rate = value;
+                  }),
+            ),
+            ListTile(
+              title: Text("3"),
+              leading: Radio(
+                  value: 3.0,
+                  groupValue: _rate,
+                  onChanged: (value) {
+                    _rate = value;
+                  }),
+            ),
+            Flexible(
+              child: ListTile(
+                title: Text("4"),
+                leading: Radio(
+                    value: 4.0,
+                    groupValue: _rate,
+                    onChanged: (value) {
+                      _rate = value;
+                    }),
+              ),
+            ),
+            Flexible(
+              child: ListTile(
+                title: Text("5"),
+                leading: Radio(
+                    value: 5.0,
+                    groupValue: _rate,
+                    onChanged: (value) {
+                      _rate = value;
+                    }),
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget rating() {
+    return RatingBar.builder(
+      itemSize: 20,
+      initialRating: 3,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {
+        _rate = rating;
+      },
     );
   }
 

@@ -33,3 +33,16 @@ class AddReview extends FeaturesEvent {
   @override
   String toString() => "User Add {review: $review}";
 }
+
+class Book extends FeaturesEvent {
+  final int uId;
+  final int tId;
+
+  const Book(this.uId, this.tId);
+
+  @override
+  List<Object> get props => [uId, tId];
+
+  @override
+  String toString() => "You Booked this {tour: $tId}";
+}
